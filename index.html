@@ -315,6 +315,55 @@
             gap: 16px;
         }
 
+        /* --- WSPÓLNA SCENKA REAKCJI REJKI (SMACZEK + SERDUSZKA / KUPA) --- */
+        .rejka-reaction-box {
+            position: relative;
+            width: 180px;
+            height: 118px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 2px solid #64748b;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .rejka-reaction-box.good {
+            border-color: #4ade80;
+            box-shadow: 0 0 18px rgba(74, 222, 128, 0.35);
+        }
+        .rejka-reaction-box.bad {
+            border-color: #f87171;
+            box-shadow: 0 0 18px rgba(248, 113, 113, 0.35);
+        }
+        .rejka-reaction-box svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        @keyframes floatHeart {
+            0%   { transform: translateY(10px) scale(0.7); opacity: 0; }
+            30%  { opacity: 1; }
+            100% { transform: translateY(-20px) scale(1.12); opacity: 0; }
+        }
+        @keyframes popTreat {
+            0%   { transform: scale(0.4) rotate(-18deg); opacity: 0; }
+            60%  { transform: scale(1.12) rotate(6deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        @keyframes dropPoop {
+            0%   { transform: translateY(-14px) scale(0.6); opacity: 0; }
+            70%  { transform: translateY(2px) scale(1.06); opacity: 1; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        .anim-heart-1 { animation: floatHeart 1.35s ease-out infinite; transform-origin: center; }
+        .anim-heart-2 { animation: floatHeart 1.35s ease-out 0.35s infinite; transform-origin: center; }
+        .anim-heart-3 { animation: floatHeart 1.35s ease-out 0.7s infinite; transform-origin: center; }
+        .anim-treat   { animation: popTreat 0.38s ease-out forwards; transform-origin: center; }
+        .anim-poop    { animation: dropPoop 0.35s ease-out forwards; transform-origin: center; }
+
         /* --- HUD I CANVAS (CYFRY RZYMSKIE) --- */
         #hud {
             width: 100%;
@@ -434,7 +483,7 @@
         .memory-side {
             width: 220px;
             flex-shrink: 0;
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(15, 23, 42, 0.92);
             border: 2px solid #fbbf24;
             border-radius: 14px;
             padding: 14px;
@@ -444,16 +493,11 @@
             align-items: center;
             gap: 10px;
         }
-        .memory-side img {
-            width: 120px;
-            height: auto;
-            object-fit: contain;
-        }
         #memorySpeech {
             font-size: 15px;
             line-height: 1.35;
             color: #fef08a;
-            min-height: 48px;
+            min-height: 46px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -535,22 +579,29 @@
         }
         .fill-panel {
             width: 100%;
-            min-height: 480px;
+            min-height: 460px;
             background: #292524;
             border: 3px solid #64748b;
             border-radius: 0 0 12px 12px;
-            padding: 28px;
+            padding: 24px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            gap: 20px;
+            gap: 18px;
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
         }
+        .fill-top-row {
+            display: flex;
+            align-items: stretch;
+            justify-content: space-between;
+            gap: 18px;
+        }
         .fill-prompt-box {
+            flex: 1;
             background: #1c1917;
             border: 2px solid #fbbf24;
             border-radius: 12px;
-            padding: 22px;
+            padding: 20px;
         }
         .fill-type-tag {
             display: inline-block;
@@ -621,9 +672,14 @@
             .sub-activities-grid {
                 grid-template-columns: 1fr;
             }
-            .hub-intro {
+            .hub-intro,
+            .fill-top-row {
                 flex-direction: column;
+                align-items: center;
                 text-align: center;
+            }
+            .fill-prompt-box {
+                width: 100%;
             }
             #memoryArena {
                 flex-direction: column;
@@ -636,8 +692,9 @@
                 justify-content: space-between;
                 padding: 10px 12px;
             }
-            .memory-side img {
-                width: 58px;
+            .memory-side .rejka-reaction-box {
+                width: 126px;
+                height: 84px;
             }
             .memory-reset-btn {
                 width: auto;
@@ -769,7 +826,7 @@
 
         <div id="memoryArena">
             <div class="memory-side">
-                <img src="grafika/reja.png" alt="Rejka" onerror="this.style.display='none'">
+                <div id="memoryReactionBox" class="rejka-reaction-box"></div>
                 <div id="memorySpeech">Dopasuj 10 par słówek EN ↔ PL!</div>
                 <button class="memory-reset-btn" onclick="initMemoryGame()">Losuj 10 słówek</button>
             </div>
@@ -794,10 +851,13 @@
         </div>
 
         <div class="fill-panel">
-            <div class="fill-prompt-box">
-                <span id="fillTypeTag" class="fill-type-tag">Słówko EN → PL</span>
-                <p id="fillQuestion" class="fill-question">Ładowanie zadania...</p>
-                <p id="fillHint" class="fill-hint">Wpisz odpowiedź i kliknij „Sprawdź”.</p>
+            <div class="fill-top-row">
+                <div class="fill-prompt-box">
+                    <span id="fillTypeTag" class="fill-type-tag">Słówko EN → PL</span>
+                    <p id="fillQuestion" class="fill-question">Ładowanie zadania...</p>
+                    <p id="fillHint" class="fill-hint">Wpisz odpowiedź i kliknij „Sprawdź”.</p>
+                </div>
+                <div id="fillReactionBox" class="rejka-reaction-box"></div>
             </div>
 
             <div class="fill-answer-row">
@@ -893,6 +953,72 @@
         };
 
         // =========================================================
+        // WSPÓLNY SYSTEM REAKCJI REJKI (SMACZEK + SERDUSZKA / KUPA)
+        // =========================================================
+        const reactionTimers = {};
+
+        function renderRejkaReaction(boxId, state = "idle") {
+            const box = document.getElementById(boxId);
+            if (!box) return;
+
+            box.classList.remove("good", "bad");
+            if (state === "good") box.classList.add("good");
+            if (state === "bad") box.classList.add("bad");
+
+            const dogX = state === "bad" ? 86 : 62;
+
+            let extras = "";
+            if (state === "good") {
+                extras = `
+                    <!-- Smaczek (kość) przed Rejką -->
+                    <g class="anim-treat">
+                        <rect x="20" y="79" width="32" height="12" rx="5" fill="#fef3c7" stroke="#292524" stroke-width="2.2"/>
+                        <circle cx="20" cy="81" r="5" fill="#fef3c7" stroke="#292524" stroke-width="2.2"/>
+                        <circle cx="20" cy="89" r="5" fill="#fef3c7" stroke="#292524" stroke-width="2.2"/>
+                        <circle cx="52" cy="81" r="5" fill="#fef3c7" stroke="#292524" stroke-width="2.2"/>
+                        <circle cx="52" cy="89" r="5" fill="#fef3c7" stroke="#292524" stroke-width="2.2"/>
+                    </g>
+                    <!-- Unoszące się serduszka -->
+                    <g fill="#f43f5e" stroke="#881337" stroke-width="1.4">
+                        <path class="anim-heart-1" d="M 38 42 C 38 37, 30 37, 30 43 C 30 48, 38 53, 38 53 C 38 53, 46 48, 46 43 C 46 37, 38 37, 38 42 Z"/>
+                        <path class="anim-heart-2" d="M 105 32 C 105 27, 97 27, 97 33 C 97 38, 105 43, 105 43 C 105 43, 113 38, 113 33 C 113 27, 105 27, 105 32 Z"/>
+                        <path class="anim-heart-3" d="M 148 46 C 148 41, 141 41, 141 46 C 141 51, 148 55, 148 55 C 148 55, 155 51, 155 46 C 155 41, 148 41, 148 46 Z"/>
+                    </g>
+                `;
+            } else if (state === "bad") {
+                extras = `
+                    <!-- Kupka za Rejką -->
+                    <g class="anim-poop" stroke="#291509" stroke-width="2">
+                        <ellipse cx="44" cy="96" rx="18" ry="7" fill="#7c4723"/>
+                        <ellipse cx="44" cy="89" rx="13" ry="6" fill="#8b522a"/>
+                        <path d="M 36 85 Q 44 73 51 85 Z" fill="#9c5d32"/>
+                    </g>
+                `;
+            }
+
+            box.innerHTML = `
+                <svg viewBox="0 0 180 118" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0" y="100" width="180" height="18" fill="#334155"/>
+                    ${extras}
+                    <image href="grafika/reja.png" x="${dogX}" y="22" width="84" height="78" preserveAspectRatio="xMidYMid meet"/>
+                </svg>
+            `;
+        }
+
+        function triggerRejkaReaction(boxId, isCorrect, autoResetMs = 2000) {
+            if (reactionTimers[boxId]) {
+                clearTimeout(reactionTimers[boxId]);
+            }
+            renderRejkaReaction(boxId, isCorrect ? "good" : "bad");
+
+            if (autoResetMs > 0) {
+                reactionTimers[boxId] = setTimeout(() => {
+                    renderRejkaReaction(boxId, "idle");
+                }, autoResetMs);
+            }
+        }
+
+        // =========================================================
         // KONTENT UNIT 2 (ŁATWE PODMIENIANIE SŁÓWEK I ZDAŃ)
         // =========================================================
         const unit2Vocabulary = [
@@ -909,18 +1035,16 @@
             { en: "wash the car", pl: "myć samochód" },
             { en: "always", pl: "zawsze" },
             { en: "often", pl: "często" },
-	    { en: "sometimes", pl: "czasami" },
-	    { en: "never", pl: "nigdy" },
+	        { en: "sometimes", pl: "czasami" },
+	        { en: "never", pl: "nigdy" },
             { en: "river", pl: "rzeka" },
             { en: "explain", pl: "wyjaśniać" },
-            { en: "exercise", pl: "ćwiczenie" },
+            { en: "exercise", pl: "ćwiczenie" }
 
         ];
 
         const unit2FillTasks = [
-            
-          
-            { type: "Uzupełnienie zdania", prompt: "Jak często Lily czyta komiksy", answer: "How often does Lily read comics ?", hint: "Uzupełnij zdanie. " },
+           { type: "Uzupełnienie zdania", prompt: "Jak często Lily czyta komiksy", answer: "How often does Lily read comics ?", hint: "Uzupełnij zdanie. " },
             { type: "Uzupełnienie zdania", prompt: "She ____ to music every day.", answer: "listens", hint: "Forma dla she / he / it " },
             { type: "Słówko EN → PL", prompt: "chores", answer: "obowiązki domowe", hint: " Wpisz słowo po polsku." },
             { type: "Słówko PL → EN", prompt: "chciwy", answer: "greed", hint: "Wpisz słowo po angielsku." },
@@ -1195,6 +1319,7 @@
             memoryMoves = 0;
             memoryLocked = false;
 
+            renderRejkaReaction("memoryReactionBox", "idle");
             document.getElementById("memorySpeech").innerText =
                 `Wylosowano ${chosenPairs.length} par! Łącz EN ↔ PL.`;
             updateMemoryHUD();
@@ -1251,24 +1376,27 @@
                     updateMemoryHUD();
                     renderMemoryGrid();
 
+                    triggerRejkaReaction("memoryReactionBox", true, 1800);
+
                     if (matchedPairs === memoryCards.length / 2) {
                         document.getElementById("memorySpeech").innerText =
                             `Brawo! Wszystkie pary w ${memoryMoves} ruchach!`;
                     } else {
                         document.getElementById("memorySpeech").innerText =
-                            "Great job! Pasująca para!";
+                            "Brawo! Smaczek i serduszka dla Rejki!";
                     }
                 } else {
                     memoryLocked = true;
+                    triggerRejkaReaction("memoryReactionBox", false, 1500);
                     document.getElementById("memorySpeech").innerText =
-                        "Spróbuj ponownie!";
+                        "Ups! Zła para!";
                     setTimeout(() => {
                         first.revealed = false;
                         second.revealed = false;
                         flippedCards = [];
                         memoryLocked = false;
                         renderMemoryGrid();
-                    }, 900);
+                    }, 950);
                 }
             }
         }
@@ -1308,6 +1436,7 @@
             fillQueue = buildFillPool();
             fillIndex = 0;
             fillScore = 0;
+            renderRejkaReaction("fillReactionBox", "idle");
             renderFillQuestion();
         }
 
@@ -1316,6 +1445,7 @@
             const total = fillQueue.length;
             const current = fillQueue[fillIndex];
 
+            renderRejkaReaction("fillReactionBox", "idle");
             document.getElementById("fillProgressBadge").innerText = `Zadanie: ${fillIndex + 1} / ${total}`;
             document.getElementById("fillScoreBadge").innerText = `Poprawne: ${fillScore}`;
             document.getElementById("fillTypeTag").innerText = current.type;
@@ -1350,10 +1480,12 @@
                     fillAnsweredCurrent = true;
                     document.getElementById("fillScoreBadge").innerText = `Poprawne: ${fillScore}`;
                 }
-                fb.innerText = `Poprawnie! (${current.answer})`;
+                triggerRejkaReaction("fillReactionBox", true, 0);
+                fb.innerText = `Brawo! Rejka dostała smaczek! (${current.answer})`;
                 fb.style.color = "#4ade80";
             } else {
-                fb.innerText = `Nie całkiem – poprawna odpowiedź to: ${current.answer}`;
+                triggerRejkaReaction("fillReactionBox", false, 0);
+                fb.innerText = `Zła odpowiedź! Poprawna to: ${current.answer}`;
                 fb.style.color = "#fca5a5";
             }
         }
@@ -1499,8 +1631,207 @@
                     { x: 578, y: 112, w: 68, h: 28, value: "531", correct: false }
                 ],
                 gate: { x: 722, y: 281, w: 64, h: 125 }
+            },
+{
+                roman: "CDXLVII",
+                platforms: [
+                    { x: 0, y: 406, w: 800, h: 44 },
+                    { x: 90, y: 316, w: 170, h: 22 },
+                    { x: 310, y: 232, w: 175, h: 22 },
+                    { x: 525, y: 150, w: 175, h: 22 }
+                ],
+                bones: [
+                    { x: 141, y: 278, w: 68, h: 28, value: "667", correct: false  },
+                    { x: 363, y: 194, w: 68, h: 28, value: "447", correct: true },
+                    { x: 578, y: 112, w: 68, h: 28, value: "547", correct: false }
+                ],
+                gate: { x: 722, y: 281, w: 64, h: 125 }
+            },
+{
+                roman: "MCMXCIX",
+                platforms: [
+                    { x: 0, y: 406, w: 800, h: 44 },
+                    { x: 90, y: 316, w: 170, h: 22 },
+                    { x: 310, y: 232, w: 175, h: 22 },
+                    { x: 525, y: 150, w: 175, h: 22 }
+                ],
+                bones: [
+                    { x: 141, y: 278, w: 68, h: 28, value: "1900", correct: false  },
+                    { x: 363, y: 194, w: 68, h: 28, value: "1999", correct: true },
+                    { x: 578, y: 112, w: 68, h: 28, value: "1899", correct: false }
+                ],
+                gate: { x: 722, y: 281, w: 64, h: 125 }
+            },
+{
+                roman: "MCMLXXXVII",
+                platforms: [
+                    { x: 0, y: 406, w: 800, h: 44 },
+                    { x: 90, y: 316, w: 170, h: 22 },
+                    { x: 310, y: 232, w: 175, h: 22 },
+                    { x: 525, y: 150, w: 175, h: 22 }
+                ],
+                bones: [
+                    { x: 141, y: 278, w: 68, h: 28, value: "1907", correct: false },
+                    { x: 363, y: 194, w: 68, h: 28, value: "1997", correct: false },
+                    { x: 578, y: 112, w: 68, h: 28, value: "1987", correct: true }
+                ],
+                gate: { x: 722, y: 281, w: 64, h: 125 }
+            },
+
+{
+                roman: "CDXL",
+                platforms: [
+                    { x: 0, y: 406, w: 800, h: 44 },
+                    { x: 90, y: 316, w: 170, h: 22 },
+                    { x: 310, y: 232, w: 175, h: 22 },
+                    { x: 525, y: 150, w: 175, h: 22 }
+                ],
+                bones: [
+                    { x: 141, y: 278, w: 68, h: 28, value: "760", correct: false },
+                    { x: 363, y: 194, w: 68, h: 28, value: "540", correct: false },
+                    { x: 578, y: 112, w: 68, h: 28, value: "440", correct: true }
+                ],
+                gate: { x: 722, y: 281, w: 64, h: 125 }
+            },
+
+{
+                roman: "MMCCXLIV",
+                platforms: [
+                    { x: 0, y: 406, w: 800, h: 44 },
+                    { x: 90, y: 316, w: 170, h: 22 },
+                    { x: 310, y: 232, w: 175, h: 22 },
+                    { x: 525, y: 150, w: 175, h: 22 }
+                ],
+                bones: [
+                    { x: 141, y: 278, w: 68, h: 28, value: "2200", correct: false },
+                    { x: 363, y: 194, w: 68, h: 28, value: "2244", correct: true },
+                    { x: 578, y: 112, w: 68, h: 28, value: "2440", correct: false}
+                ],
+                gate: { x: 722, y: 281, w: 64, h: 125 }
+            },
+{
+                roman: "DCCLXXVII",
+                platforms: [
+                    { x: 0, y: 406, w: 800, h: 44 },
+                    { x: 90, y: 316, w: 170, h: 22 },
+                    { x: 310, y: 232, w: 175, h: 22 },
+                    { x: 525, y: 150, w: 175, h: 22 }
+                ],
+                bones: [
+                    { x: 141, y: 278, w: 68, h: 28, value: "634", correct: false },
+                    { x: 363, y: 194, w: 68, h: 28, value: "1248", correct: false },
+                    { x: 578, y: 112, w: 68, h: 28, value: "777", correct: true}
+                ],
+                gate: { x: 722, y: 281, w: 64, h: 125 }
+            },
+{
+                roman: "XXXVIII",
+                platforms: [
+                    { x: 0, y: 406, w: 800, h: 44 },
+                    { x: 90, y: 316, w: 170, h: 22 },
+                    { x: 310, y: 232, w: 175, h: 22 },
+                    { x: 525, y: 150, w: 175, h: 22 }
+                ],
+                bones: [
+                    { x: 141, y: 278, w: 68, h: 28, value: "38", correct: true },
+                    { x: 363, y: 194, w: 68, h: 28, value: "89", correct: false },
+                    { x: 578, y: 112, w: 68, h: 28, value: "46", correct: false}
+                ],
+                gate: { x: 722, y: 281, w: 64, h: 125 }
+            },
+{
+                roman: "MDCLXXI",
+                platforms: [
+                    { x: 0, y: 406, w: 800, h: 44 },
+                    { x: 90, y: 316, w: 170, h: 22 },
+                    { x: 310, y: 232, w: 175, h: 22 },
+                    { x: 525, y: 150, w: 175, h: 22 }
+                ],
+                bones: [
+                    { x: 141, y: 278, w: 68, h: 28, value: "1671", correct: false },
+                    { x: 363, y: 194, w: 68, h: 28, value: "1249", correct: false },
+                    { x: 578, y: 112, w: 68, h: 28, value: "1532", correct: true}
+                ],
+                gate: { x: 722, y: 281, w: 64, h: 125 }
+            },
+{
+                roman: "MDCLVXI",
+                platforms: [
+                    { x: 0, y: 406, w: 800, h: 44 },
+                    { x: 90, y: 316, w: 170, h: 22 },
+                    { x: 310, y: 232, w: 175, h: 22 },
+                    { x: 525, y: 150, w: 175, h: 22 }
+                ],
+                bones: [
+                    { x: 141, y: 278, w: 68, h: 28, value: "1652", correct: false },
+                    { x: 363, y: 194, w: 68, h: 28, value: "1671", correct: true },
+                    { x: 578, y: 112, w: 68, h: 28, value: "1661", correct: false}
+                ],
+                gate: { x: 722, y: 281, w: 64, h: 125 }
+            },
+{
+                roman: "MII",
+                platforms: [
+                    { x: 0, y: 406, w: 800, h: 44 },
+                    { x: 90, y: 316, w: 170, h: 22 },
+                    { x: 310, y: 232, w: 175, h: 22 },
+                    { x: 525, y: 150, w: 175, h: 22 }
+                ],
+                bones: [
+                    { x: 141, y: 278, w: 68, h: 28, value: "1053", correct: false },
+                    { x: 363, y: 194, w: 68, h: 28, value: "1002", correct: true },
+                    { x: 578, y: 112, w: 68, h: 28, value: "1249", correct: false}
+                ],
+                gate: { x: 722, y: 281, w: 64, h: 125 }
+            },
+{
+                roman: "CDLII",
+                platforms: [
+                    { x: 0, y: 406, w: 800, h: 44 },
+                    { x: 90, y: 316, w: 170, h: 22 },
+                    { x: 310, y: 232, w: 175, h: 22 },
+                    { x: 525, y: 150, w: 175, h: 22 }
+                ],
+                bones: [
+                    { x: 141, y: 278, w: 68, h: 28, value: "564", correct: false },
+                    { x: 363, y: 194, w: 68, h: 28, value: "452", correct: true },
+                    { x: 578, y: 112, w: 68, h: 28, value: "500", correct: false}
+               ],
+                gate: { x: 722, y: 281, w: 64, h: 125 }
+            },
+{
+                roman: "MCCCLIII",
+                platforms: [
+                    { x: 0, y: 406, w: 800, h: 44 },
+                    { x: 90, y: 316, w: 170, h: 22 },
+                    { x: 310, y: 232, w: 175, h: 22 },
+                    { x: 525, y: 150, w: 175, h: 22 }
+                ],
+                bones: [
+                    { x: 141, y: 278, w: 68, h: 28, value: "1353", correct: true },
+                    { x: 363, y: 194, w: 68, h: 28, value: "1814", correct: false },
+                    { x: 578, y: 112, w: 68, h: 28, value: "2000", correct: false}
+                ],
+                gate: { x: 722, y: 281, w: 64, h: 125 }
+            },
+
+{
+                roman: "MDCXL",
+                platforms: [
+                    { x: 0, y: 406, w: 800, h: 44 },
+                    { x: 90, y: 316, w: 170, h: 22 },
+                    { x: 310, y: 232, w: 175, h: 22 },
+                    { x: 525, y: 150, w: 175, h: 22 }
+                ],
+                bones: [
+                    { x: 141, y: 278, w: 68, h: 28, value: "1730", correct: false },
+                    { x: 363, y: 194, w: 68, h: 28, value: "1640", correct: true },
+                    { x: 578, y: 112, w: 68, h: 28, value: "2525", correct: false}
+                ],
+                gate: { x: 722, y: 281, w: 64, h: 125 }
             }
         ];
+
 
         let selectedRunOrder = [];
         let currentStep = 0;
@@ -1514,6 +1845,7 @@
         let message = "";
         let messageTimer = 0;
         let poopSpot = null;
+        let rewardEffect = null;
 
         function pickRandomRoomsOrder(totalAvailable, count) {
             const indices = Array.from({ length: totalAvailable }, (_, i) => i);
@@ -1584,6 +1916,7 @@
             gateOpen = false;
             activeChoiceBone = null;
             poopSpot = null;
+            rewardEffect = null;
             syncChoiceBar();
 
             player.x = 60;
@@ -1653,6 +1986,10 @@
             poopSpot = { x: px, y: py, timer: 240 };
         }
 
+        function spawnRewardEffect() {
+            rewardEffect = { timer: 150, maxTimer: 150 };
+        }
+
         function handleTakeBone(bone) {
             bone.taken = true;
             activeChoiceBone = null;
@@ -1661,7 +1998,8 @@
             if (bone.correct) {
                 gateOpen = true;
                 updateHUD();
-                showMessage("Brawo! Brama otwarta!", 200);
+                spawnRewardEffect();
+                showMessage("Brawo! Smaczek i serduszka! Brama otwarta!", 200);
             } else {
                 spawnPoopBehindReja();
                 showMessage("Zła odpowiedź", 160);
@@ -1725,6 +2063,10 @@
             if (poopSpot) {
                 poopSpot.timer--;
                 if (poopSpot.timer <= 0) poopSpot = null;
+            }
+            if (rewardEffect) {
+                rewardEffect.timer--;
+                if (rewardEffect.timer <= 0) rewardEffect = null;
             }
 
             if (gameFinished) return;
@@ -1916,6 +2258,53 @@
             ctx.restore();
         }
 
+        function drawHeartShape(cx, cy, size) {
+            ctx.beginPath();
+            ctx.moveTo(cx, cy + size * 0.3);
+            ctx.bezierCurveTo(cx, cy - size * 0.3, cx - size, cy - size * 0.3, cx - size, cy + size * 0.25);
+            ctx.bezierCurveTo(cx - size, cy + size * 0.75, cx, cy + size * 1.05, cx, cy + size * 1.3);
+            ctx.bezierCurveTo(cx, cy + size * 1.05, cx + size, cy + size * 0.75, cx + size, cy + size * 0.25);
+            ctx.bezierCurveTo(cx + size, cy - size * 0.3, cx, cy - size * 0.3, cx, cy + size * 0.3);
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function drawRewardEffect(effect) {
+            if (!effect) return;
+            const progress = 1 - effect.timer / effect.maxTimer;
+            const alpha = Math.min(1, effect.timer / 30);
+
+            ctx.save();
+            ctx.globalAlpha = alpha;
+
+            // Złoty smaczek przed Rejką
+            const treatX = player.facingRight ? player.x + player.width - 14 : player.x - 24;
+            const treatY = player.y + player.height - 24;
+            ctx.fillStyle = "#fef08a";
+            ctx.strokeStyle = "#292524";
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.roundRect(treatX, treatY, 34, 14, 6);
+            ctx.fill();
+            ctx.stroke();
+
+            // Unoszące się serduszka nad Rejką
+            const hearts = [
+                { dx: 34, dy: -16 - progress * 46, s: 11 },
+                { dx: 76, dy: -32 - progress * 58, s: 14 },
+                { dx: 118, dy: -18 - progress * 42, s: 10 }
+            ];
+            ctx.fillStyle = "#f43f5e";
+            ctx.strokeStyle = "#881337";
+            ctx.lineWidth = 2;
+
+            hearts.forEach(h => {
+                drawHeartShape(player.x + h.dx, player.y + h.dy, h.s);
+            });
+
+            ctx.restore();
+        }
+
         function drawRoman() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -1988,6 +2377,8 @@
                 drawReja(0, 0);
             }
             ctx.restore();
+
+            drawRewardEffect(rewardEffect);
 
             const nearbyBone = !gameFinished ? getNearbyBone() : null;
             if (nearbyBone) {
