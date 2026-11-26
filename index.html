@@ -19,7 +19,7 @@
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-            padding: 10px;
+            padding: 8px;
             user-select: none;
             overflow-x: hidden;
         }
@@ -85,45 +85,45 @@
             align-items: center;
             justify-content: space-between;
             gap: 16px;
-            background: rgba(255, 251, 235, 0.94);
+            background: rgba(255, 251, 235, 0.95);
             border: 3px solid #292524;
             border-radius: 16px;
-            padding: 10px 20px;
+            padding: 12px 22px;
             box-shadow: 0 5px 0 #292524;
             pointer-events: auto;
         }
         .patio-title-box h1 {
             margin: 0;
-            font-size: 32px;
+            font-size: 34px;
             color: #1c1917;
         }
         .patio-title-box p {
-            margin: 3px 0 0 0;
-            font-size: 15px;
+            margin: 4px 0 0 0;
+            font-size: 16px;
             color: #44403c;
             font-weight: bold;
         }
         .rejka-pill {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             background: #fef08a;
             border: 3px solid #292524;
             border-radius: 12px;
-            padding: 5px 14px;
+            padding: 6px 14px;
             box-shadow: 0 3px 0 #292524;
             flex-shrink: 0;
         }
         .rejka-pill img {
-            width: 64px;
-            height: 52px;
+            width: 68px;
+            height: 54px;
             object-fit: contain;
         }
         .rejka-pill span {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: bold;
             color: #1c1917;
-            max-width: 195px;
+            max-width: 210px;
             line-height: 1.25;
         }
 
@@ -134,8 +134,8 @@
             touch-action: manipulation;
             border: 3px solid #292524;
             border-radius: 14px;
-            padding: 11px 18px;
-            font-size: 18px;
+            padding: 12px 20px;
+            font-size: 20px;
             font-weight: 900;
             letter-spacing: 0.6px;
             cursor: pointer;
@@ -148,7 +148,7 @@
             box-shadow: 0 8px 0 #292524;
         }
         .portal-english {
-            left: 22%;
+            left: 20%;
             top: 63%;
             background: #bae6fd;
             color: #0c4a6e;
@@ -200,11 +200,11 @@
         .game-title {
             margin: 0;
             color: #fbbf24;
-            font-size: clamp(20px, 2.5vw, 30px);
+            font-size: clamp(19px, 2.5vw, 30px);
             text-align: center;
         }
 
-        /* --- EKRAN DZIAŁU / TEMATÓW --- */
+        /* --- PANEL DZIAŁU / UNITÓW / TEMATÓW --- */
         .hub-panel {
             width: 100%;
             min-height: 500px;
@@ -260,13 +260,17 @@
             background: #24201e;
             transform: translateY(-2px);
         }
+        .topic-card.selected-unit {
+            border-color: #38bdf8;
+            background: #1e293b;
+        }
         .topic-card.placeholder-topic {
             opacity: 0.72;
             border-style: dashed;
         }
         .topic-card h3 {
             margin: 0 0 6px 0;
-            font-size: 20px;
+            font-size: 21px;
             color: #fafaf9;
         }
         .topic-card p {
@@ -290,6 +294,25 @@
             background: #44403c;
             color: #a8a29e;
             cursor: default;
+        }
+        .sub-activities-box {
+            background: #1c1917;
+            border: 2px solid #38bdf8;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .sub-activities-box h3 {
+            margin: 0;
+            color: #7dd3fc;
+            font-size: 20px;
+        }
+        .sub-activities-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
         }
 
         /* --- HUD I CANVAS (CYFRY RZYMSKIE) --- */
@@ -377,7 +400,7 @@
             touch-action: manipulation;
         }
 
-        /* --- TRYB ANGIELSKI: MEMORY --- */
+        /* --- TRYB ANGIELSKI: MEMORY (10 PAR = 20 KART) --- */
         #memoryHud {
             width: 100%;
             display: flex;
@@ -401,20 +424,20 @@
             background-position: center;
             border: 3px solid #64748b;
             border-radius: 0 0 8px 8px;
-            padding: 20px;
+            padding: 18px;
             display: flex;
-            gap: 20px;
+            gap: 18px;
             align-items: center;
             justify-content: space-between;
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
         }
         .memory-side {
-            width: 230px;
+            width: 220px;
             flex-shrink: 0;
             background: rgba(15, 23, 42, 0.9);
             border: 2px solid #fbbf24;
             border-radius: 14px;
-            padding: 16px;
+            padding: 14px;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -422,7 +445,7 @@
             gap: 10px;
         }
         .memory-side img {
-            width: 130px;
+            width: 120px;
             height: auto;
             object-fit: contain;
         }
@@ -430,7 +453,7 @@
             font-size: 15px;
             line-height: 1.35;
             color: #fef08a;
-            min-height: 54px;
+            min-height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -450,27 +473,27 @@
         #memoryGrid {
             flex: 1;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
         }
         .mem-card {
-            min-height: 130px;
-            height: 155px;
-            border-radius: 12px;
+            height: 118px;
+            border-radius: 10px;
             border: 3px solid #f59e0b;
             background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
             color: #fef08a;
-            font-size: clamp(17px, 2vw, 25px);
+            font-size: clamp(15px, 1.5vw, 20px);
             font-weight: bold;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 10px;
+            padding: 8px;
             cursor: pointer;
-            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.45);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
             touch-action: manipulation;
+            user-select: text;
         }
         .mem-card.revealed {
             background: #f8fafc;
@@ -483,23 +506,119 @@
             border-color: #22c55e;
         }
         .mem-card .lang-badge {
-            font-size: 11px;
+            font-size: 10px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 2px 7px;
-            border-radius: 6px;
-            margin-bottom: 6px;
+            letter-spacing: 0.8px;
+            padding: 2px 6px;
+            border-radius: 5px;
+            margin-bottom: 5px;
             font-weight: bold;
         }
         .lang-en { background: #dbeafe; color: #1e40af; }
         .lang-pl { background: #fef3c7; color: #92400e; }
 
+        /* --- TRYB ANGIELSKI: UZUPEŁNIANIE --- */
+        #fillHud {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            background: #1e293b;
+            padding: 12px 18px;
+            border: 3px solid #64748b;
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            font-size: clamp(14px, 1.7vw, 20px);
+            font-weight: bold;
+        }
+        .fill-panel {
+            width: 100%;
+            min-height: 480px;
+            background: #292524;
+            border: 3px solid #64748b;
+            border-radius: 0 0 12px 12px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 20px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+        }
+        .fill-prompt-box {
+            background: #1c1917;
+            border: 2px solid #fbbf24;
+            border-radius: 12px;
+            padding: 22px;
+        }
+        .fill-type-tag {
+            display: inline-block;
+            background: #334155;
+            color: #bae6fd;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 999px;
+            margin-bottom: 10px;
+        }
+        .fill-question {
+            margin: 0 0 8px 0;
+            font-size: clamp(22px, 2.6vw, 32px);
+            color: #fef08a;
+            user-select: text;
+        }
+        .fill-hint {
+            margin: 0;
+            font-size: 15px;
+            color: #d6d3d1;
+        }
+        .fill-answer-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+        .fill-input {
+            flex: 1;
+            min-width: 220px;
+            padding: 12px 16px;
+            font-size: 20px;
+            border-radius: 10px;
+            border: 2px solid #a8a29e;
+            background: #f8fafc;
+            color: #0f172a;
+            font-weight: bold;
+            user-select: text;
+        }
+        .fill-action-btn {
+            background: #fbbf24;
+            color: #1c1917;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .fill-action-btn.secondary {
+            background: #38bdf8;
+            color: #0f172a;
+        }
+        .fill-feedback {
+            min-height: 30px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
         @media (max-width: 820px) {
             body {
                 justify-content: flex-start;
-                padding: 8px;
+                padding: 6px;
             }
-            .topics-grid {
+            .topics-grid,
+            .sub-activities-grid {
                 grid-template-columns: 1fr;
             }
             .hub-intro {
@@ -509,28 +628,28 @@
             #memoryArena {
                 flex-direction: column;
                 min-height: auto;
-                padding: 14px;
+                padding: 12px;
             }
             .memory-side {
                 width: 100%;
                 flex-direction: row;
                 justify-content: space-between;
-                padding: 10px 14px;
+                padding: 10px 12px;
             }
             .memory-side img {
-                width: 64px;
+                width: 58px;
             }
             .memory-reset-btn {
                 width: auto;
             }
             #memoryGrid {
                 width: 100%;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 7px;
             }
             .mem-card {
-                height: 105px;
-                min-height: 95px;
+                height: 86px;
+                font-size: 14px;
             }
             .mobile-controls {
                 display: flex;
@@ -609,7 +728,7 @@
     </div>
 
     <!-- =========================================================
-         EKRAN 2: PANEL TEMATÓW WYBRANEGO DZIAŁU
+         EKRAN 2: PANEL DZIAŁU / UNITÓW / TEMATÓW
          ========================================================= -->
     <div id="subjectHubScreen" class="screen">
         <div class="top-bar">
@@ -628,32 +747,67 @@
             </div>
 
             <div id="topicsGrid" class="topics-grid"></div>
+            <div id="subActivitiesArea"></div>
         </div>
     </div>
 
     <!-- =========================================================
-         EKRAN 3: ANGIELSKI – MEMORY
+         EKRAN 3A: ANGIELSKI – MEMORY (10 PAR = 20 KART)
          ========================================================= -->
-    <div id="englishScreen" class="screen">
+    <div id="englishMemoryScreen" class="screen">
         <div class="top-bar">
-            <button class="back-btn" onclick="openSubjectHub('english')">← Tematy</button>
-            <h1 class="game-title">Angielski – Memory</h1>
+            <button class="back-btn" onclick="openSubjectHub('english', 'unit2')">← UNIT 2</button>
+            <h1 class="game-title">UNIT 2 – Memory</h1>
             <button class="back-btn" onclick="openScreen('landing')">Patio</button>
         </div>
 
         <div id="memoryHud">
-            <span id="memPairsBadge" style="color: #93c5fd;">Pary: 0 / 6</span>
-            <span style="color: #fbbf24;">Wielkie Miasto</span>
+            <span id="memPairsBadge" style="color: #93c5fd;">Pary: 0 / 10</span>
+            <span style="color: #fbbf24;">Angielski • UNIT 2</span>
             <span id="memMovesBadge" style="color: #e2e8f0;">Ruchy: 0</span>
         </div>
 
         <div id="memoryArena">
             <div class="memory-side">
                 <img src="grafika/reja.png" alt="Rejka" onerror="this.style.display='none'">
-                <div id="memorySpeech">Odkryj dwie karty i dopasuj pary!</div>
-                <button class="memory-reset-btn" onclick="initMemoryGame()">Nowe słówka</button>
+                <div id="memorySpeech">Dopasuj 10 par słówek EN ↔ PL!</div>
+                <button class="memory-reset-btn" onclick="initMemoryGame()">Losuj 10 słówek</button>
             </div>
             <div id="memoryGrid"></div>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         EKRAN 3B: ANGIELSKI – UZUPEŁNIANIE (10 LOSOWYCH ZADAŃ)
+         ========================================================= -->
+    <div id="englishFillScreen" class="screen">
+        <div class="top-bar">
+            <button class="back-btn" onclick="openSubjectHub('english', 'unit2')">← UNIT 2</button>
+            <h1 class="game-title">UNIT 2 – Uzupełnianie</h1>
+            <button class="back-btn" onclick="openScreen('landing')">Patio</button>
+        </div>
+
+        <div id="fillHud">
+            <span id="fillProgressBadge" style="color: #93c5fd;">Zadanie: 1 / 10</span>
+            <span style="color: #fbbf24;">Angielski • UNIT 2</span>
+            <span id="fillScoreBadge" style="color: #86efac;">Poprawne: 0</span>
+        </div>
+
+        <div class="fill-panel">
+            <div class="fill-prompt-box">
+                <span id="fillTypeTag" class="fill-type-tag">Słówko EN → PL</span>
+                <p id="fillQuestion" class="fill-question">Ładowanie zadania...</p>
+                <p id="fillHint" class="fill-hint">Wpisz odpowiedź i kliknij „Sprawdź”.</p>
+            </div>
+
+            <div class="fill-answer-row">
+                <input id="fillInput" class="fill-input" type="text" placeholder="Wpisz odpowiedź..." autocomplete="off">
+                <button class="fill-action-btn" onclick="checkFillAnswer()">Sprawdź</button>
+                <button class="fill-action-btn secondary" onclick="nextFillQuestion()">Dalej →</button>
+                <button class="back-btn" onclick="initFillGame()">Nowe losowanie (10)</button>
+            </div>
+
+            <div id="fillFeedback" class="fill-feedback"></div>
         </div>
     </div>
 
@@ -720,7 +874,7 @@
 
             stages.forEach(({ outer, inner }) => {
                 if (!outer || !inner) return;
-                const availableW = outer.clientWidth || Math.min(window.innerWidth - 20, BASE_W);
+                const availableW = outer.clientWidth || Math.min(window.innerWidth - 16, BASE_W);
                 const scale = Math.min(availableW / BASE_W, 1);
                 inner.style.transform = `scale(${scale})`;
                 outer.style.height = `${Math.round(BASE_H * scale)}px`;
@@ -738,23 +892,74 @@
             layer.style.backgroundImage = "url('grafika/patio_landing.jpg')";
         };
 
+        // =========================================================
+        // KONTENT UNIT 2 (ŁATWE PODMIENIANIE SŁÓWEK I ZDAŃ)
+        // =========================================================
+        const unit2Vocabulary = [
+            { en: "cat", pl: "kot" },
+            { en: "dog", pl: "pies" },
+            { en: "bird", pl: "ptak" },
+            { en: "fish", pl: "ryba" },
+            { en: "rabbit", pl: "królik" },
+            { en: "hamster", pl: "chomik" },
+            { en: "turtle", pl: "żółw" },
+            { en: "horse", pl: "koń" },
+            { en: "mouse", pl: "mysz" },
+            { en: "spider", pl: "pająk" },
+            { en: "parrot", pl: "papuga" },
+            { en: "snake", pl: "wąż" }
+        ];
+
+        const unit2FillTasks = [
+            { type: "Słówko EN → PL", prompt: "cat", answer: "kot", hint: "Zwierzę domowe po polsku." },
+            { type: "Słówko PL → EN", prompt: "pies", answer: "dog", hint: "Wpisz słowo po angielsku." },
+            { type: "Uzupełnienie zdania", prompt: "I ____ got a cat.", answer: "have", hint: "Uzupełnij brakujące słowo (I ... got a cat)." },
+            { type: "Uzupełnienie zdania", prompt: "She ____ got a dog.", answer: "has", hint: "Forma dla she / he / it przed got." },
+            { type: "Słówko EN → PL", prompt: "rabbit", answer: "królik", hint: "Ma długie uszy." },
+            { type: "Słówko PL → EN", prompt: "ptak", answer: "bird", hint: "Wpisz słowo po angielsku." },
+            { type: "Uzupełnienie zdania", prompt: "I haven't ____ a spider.", answer: "got", hint: "Słówko w konstrukcji haven't ... a ..." },
+            { type: "Słówko EN → PL", prompt: "turtle", answer: "żółw", hint: "Ma skorupę." },
+            { type: "Słówko PL → EN", prompt: "ryba", answer: "fish", hint: "Wpisz słowo po angielsku." },
+            { type: "Uzupełnienie zdania", prompt: "Have you ____ a pet?", answer: "got", hint: "Pytanie: Have you ... a pet?" },
+            { type: "Słówko EN → PL", prompt: "hamster", answer: "chomik", hint: "Mały gryzoń." },
+            { type: "Słówko PL → EN", prompt: "koń", answer: "horse", hint: "Wpisz słowo po angielsku." }
+        ];
+
+        // =========================================================
+        // KONFIGURACJA DZIAŁÓW I UNITÓW
+        // =========================================================
         const subjectCatalog = {
             english: {
                 title: "ANGIELSKI",
                 heading: "Dział: Angielski",
-                description: "Wybierz temat lub ćwiczenie. Kolejne moduły (np. uzupełnianki) dopiszemy tutaj.",
+                description: "Wybierz UNIT, aby zobaczyć dostępne ćwiczenia (Memory i Uzupełnianie).",
                 topics: [
                     {
-                        title: "Memory – Słówka",
-                        desc: "Łącz angielskie słówka z polskim tłumaczeniem.",
-                        action: () => openMemoryGame(),
-                        btnLabel: "Otwórz Memory"
+                        id: "unit2",
+                        title: "UNIT 2",
+                        desc: "Kliknij, aby otworzyć kafelki: Memory i Uzupełnianie.",
+                        btnLabel: "Wybierz UNIT 2",
+                        subActivities: [
+                            {
+                                title: "Memory",
+                                desc: "Losuje 10 słówek (20 kart) – łączysz pary EN ↔ PL.",
+                                btnLabel: "Uruchom Memory",
+                                action: () => openMemoryGame()
+                            },
+                            {
+                                title: "Uzupełnianie",
+                                desc: "Losuje 10 zadań: słówka (EN ↔ PL) oraz zdania (np. I ____ got a cat.).",
+                                btnLabel: "Uruchom Uzupełnianie",
+                                action: () => openFillGame()
+                            }
+                        ]
                     },
                     {
-                        title: "Kolejny temat (wkrótce)",
-                        desc: "Miejsce na uzupełnianki lub nowy zestaw słówek.",
-                        action: null,
-                        btnLabel: "Do dodania"
+                        id: "unit3",
+                        title: "Kolejny UNIT (wkrótce)",
+                        desc: "Miejsce na kolejne Unity, które dopiszesz w przyszłości.",
+                        btnLabel: "Wkrótce",
+                        action: null
                     }
                 ]
             },
@@ -766,14 +971,14 @@
                     {
                         title: "Temat 1 – Dżungla (wkrótce)",
                         desc: "Miejsce na pierwszy temat i ćwiczenia z przyrody.",
-                        action: null,
-                        btnLabel: "Do dodania"
+                        btnLabel: "Do dodania",
+                        action: null
                     },
                     {
                         title: "Temat 2 (wkrótce)",
                         desc: "Miejsce na kolejny moduł przyrodniczy.",
-                        action: null,
-                        btnLabel: "Do dodania"
+                        btnLabel: "Do dodania",
+                        action: null
                     }
                 ]
             },
@@ -785,14 +990,14 @@
                     {
                         title: "Temat 1 – Muzeum (wkrótce)",
                         desc: "Miejsce na pierwszy temat i zagadki historyczne.",
-                        action: null,
-                        btnLabel: "Do dodania"
+                        btnLabel: "Do dodania",
+                        action: null
                     },
                     {
                         title: "Temat 2 (wkrótce)",
                         desc: "Miejsce na kolejny moduł historyczny.",
-                        action: null,
-                        btnLabel: "Do dodania"
+                        btnLabel: "Do dodania",
+                        action: null
                     }
                 ]
             },
@@ -804,20 +1009,22 @@
                     {
                         title: "Cyfry Rzymskie",
                         desc: "Przygoda z kośćmi i otwieraniem bram w komnatach.",
-                        action: () => openRomanGame(),
-                        btnLabel: "Uruchom"
+                        btnLabel: "Uruchom",
+                        action: () => openRomanGame()
                     },
                     {
                         title: "Kolejny temat (wkrótce)",
                         desc: "Miejsce na nowe zadania lub uzupełnianki.",
-                        action: null,
-                        btnLabel: "Do dodania"
+                        btnLabel: "Do dodania",
+                        action: null
                     }
                 ]
             }
         };
 
         let activeScreen = "landing";
+        let currentSubjectKey = null;
+        let selectedUnitId = null;
 
         function openScreen(screenId) {
             activeScreen = screenId;
@@ -826,7 +1033,8 @@
             const map = {
                 landing: "landingScreen",
                 hub: "subjectHubScreen",
-                english: "englishScreen",
+                englishMemory: "englishMemoryScreen",
+                englishFill: "englishFillScreen",
                 roman: "romanScreen"
             };
             const targetId = map[screenId] || "landingScreen";
@@ -834,9 +1042,44 @@
             requestAnimationFrame(updateStagesScale);
         }
 
-        function openSubjectHub(subjectKey) {
+        function renderSubActivities(topic) {
+            const area = document.getElementById("subActivitiesArea");
+            if (!topic || !Array.isArray(topic.subActivities)) {
+                area.innerHTML = "";
+                return;
+            }
+
+            area.innerHTML = `
+                <div class="sub-activities-box">
+                    <h3>${topic.title} – wybierz tryb</h3>
+                    <div class="sub-activities-grid">
+                        ${topic.subActivities.map((act, idx) => `
+                            <div class="topic-card active-topic" id="subActCard_${idx}">
+                                <div>
+                                    <h3>${act.title}</h3>
+                                    <p>${act.desc}</p>
+                                </div>
+                                <button class="topic-btn">${act.btnLabel}</button>
+                            </div>
+                        `).join("")}
+                    </div>
+                </div>
+            `;
+
+            topic.subActivities.forEach((act, idx) => {
+                const card = document.getElementById(`subActCard_${idx}`);
+                if (card && typeof act.action === "function") {
+                    card.onclick = act.action;
+                }
+            });
+        }
+
+        function openSubjectHub(subjectKey, preselectUnitId = null) {
             const data = subjectCatalog[subjectKey];
             if (!data) return;
+
+            currentSubjectKey = subjectKey;
+            selectedUnitId = preselectUnitId;
 
             document.getElementById("hubTitle").innerText = `Misja Rejki – ${data.title}`;
             document.getElementById("hubHeading").innerText = data.heading;
@@ -844,11 +1087,15 @@
 
             const grid = document.getElementById("topicsGrid");
             grid.innerHTML = "";
+            document.getElementById("subActivitiesArea").innerHTML = "";
 
             data.topics.forEach(topic => {
+                const hasSub = Array.isArray(topic.subActivities) && topic.subActivities.length > 0;
+                const isReady = typeof topic.action === "function" || hasSub;
+                const isSelected = topic.id && topic.id === selectedUnitId;
+
                 const card = document.createElement("div");
-                const isReady = typeof topic.action === "function";
-                card.className = `topic-card ${isReady ? "active-topic" : "placeholder-topic"}`;
+                card.className = `topic-card ${isReady ? "active-topic" : "placeholder-topic"} ${isSelected ? "selected-unit" : ""}`;
 
                 card.innerHTML = `
                     <div>
@@ -858,24 +1105,270 @@
                     <button class="topic-btn">${topic.btnLabel}</button>
                 `;
 
-                if (isReady) {
+                if (hasSub) {
+                    card.onclick = () => {
+                        selectedUnitId = topic.id;
+                        openSubjectHub(subjectKey, topic.id);
+                    };
+                } else if (typeof topic.action === "function") {
                     card.onclick = topic.action;
                 }
+
                 grid.appendChild(card);
+
+                if (isSelected && hasSub) {
+                    renderSubActivities(topic);
+                }
             });
 
             openScreen("hub");
         }
 
         function openMemoryGame() {
-            openScreen("english");
+            openScreen("englishMemory");
             initMemoryGame();
+        }
+
+        function openFillGame() {
+            openScreen("englishFill");
+            initFillGame();
         }
 
         function openRomanGame() {
             openScreen("roman");
             startNewRandomRun();
         }
+
+        function shuffleArray(array) {
+            const copy = [...array];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        // =========================================================
+        // ANGIELSKI – MEMORY (LOSOWANIE 10 SŁÓWEK = 20 KART)
+        // =========================================================
+        const PAIRS_PER_MEMORY_GAME = 10;
+        let memoryCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let memoryMoves = 0;
+        let memoryLocked = false;
+
+        const cityBgTest = new Image();
+        cityBgTest.src = "grafika/tlo_miasto.jpg";
+        cityBgTest.onload = () => {
+            document.getElementById("memoryArena").style.backgroundImage =
+                `linear-gradient(rgba(15, 23, 42, 0.25), rgba(15, 23, 42, 0.35)), url('grafika/tlo_miasto.jpg')`;
+        };
+
+        function updateMemoryHUD() {
+            const totalPairs = memoryCards.length / 2;
+            document.getElementById("memPairsBadge").innerText = `Pary: ${matchedPairs} / ${totalPairs}`;
+            document.getElementById("memMovesBadge").innerText = `Ruchy: ${memoryMoves}`;
+        }
+
+        function initMemoryGame() {
+            const chosenPairs = shuffleArray(unit2Vocabulary).slice(
+                0,
+                Math.min(PAIRS_PER_MEMORY_GAME, unit2Vocabulary.length)
+            );
+
+            const deck = [];
+            chosenPairs.forEach((pair, idx) => {
+                deck.push({ pairId: idx, text: pair.en, lang: "EN", revealed: false, matched: false });
+                deck.push({ pairId: idx, text: pair.pl, lang: "PL", revealed: false, matched: false });
+            });
+
+            memoryCards = shuffleArray(deck);
+            flippedCards = [];
+            matchedPairs = 0;
+            memoryMoves = 0;
+            memoryLocked = false;
+
+            document.getElementById("memorySpeech").innerText =
+                `Wylosowano ${chosenPairs.length} par! Łącz EN ↔ PL.`;
+            updateMemoryHUD();
+            renderMemoryGrid();
+        }
+
+        function renderMemoryGrid() {
+            const grid = document.getElementById("memoryGrid");
+            grid.innerHTML = "";
+
+            memoryCards.forEach((card, index) => {
+                const btn = document.createElement("button");
+                btn.className = "mem-card";
+                if (card.matched) {
+                    btn.classList.add("matched");
+                } else if (card.revealed) {
+                    btn.classList.add("revealed");
+                }
+
+                if (card.revealed || card.matched) {
+                    const badgeClass = card.lang === "EN" ? "lang-en" : "lang-pl";
+                    btn.innerHTML = `
+                        <span class="lang-badge ${badgeClass}">${card.lang}</span>
+                        <span>${card.text}</span>
+                    `;
+                } else {
+                    btn.innerHTML = `<span style="font-size: 26px;">🐾</span>`;
+                }
+
+                btn.onclick = () => handleMemoryCardClick(index);
+                grid.appendChild(btn);
+            });
+        }
+
+        function handleMemoryCardClick(index) {
+            if (memoryLocked) return;
+            const card = memoryCards[index];
+            if (card.revealed || card.matched) return;
+
+            card.revealed = true;
+            flippedCards.push(card);
+            renderMemoryGrid();
+
+            if (flippedCards.length === 2) {
+                memoryMoves++;
+                updateMemoryHUD();
+                const [first, second] = flippedCards;
+
+                if (first.pairId === second.pairId && first.lang !== second.lang) {
+                    first.matched = true;
+                    second.matched = true;
+                    matchedPairs++;
+                    flippedCards = [];
+                    updateMemoryHUD();
+                    renderMemoryGrid();
+
+                    if (matchedPairs === memoryCards.length / 2) {
+                        document.getElementById("memorySpeech").innerText =
+                            `Brawo! Wszystkie pary w ${memoryMoves} ruchach!`;
+                    } else {
+                        document.getElementById("memorySpeech").innerText =
+                            "Great job! Pasująca para!";
+                    }
+                } else {
+                    memoryLocked = true;
+                    document.getElementById("memorySpeech").innerText =
+                        "Spróbuj ponownie!";
+                    setTimeout(() => {
+                        first.revealed = false;
+                        second.revealed = false;
+                        flippedCards = [];
+                        memoryLocked = false;
+                        renderMemoryGrid();
+                    }, 900);
+                }
+            }
+        }
+
+        // =========================================================
+        // ANGIELSKI – UZUPEŁNIANIE (LOSOWANIE 10 ZADAŃ)
+        // =========================================================
+        const TASKS_PER_FILL_GAME = 10;
+        let fillQueue = [];
+        let fillIndex = 0;
+        let fillScore = 0;
+        let fillAnsweredCurrent = false;
+
+        function buildFillPool() {
+            const vocabTasks = [];
+            unit2Vocabulary.forEach(item => {
+                vocabTasks.push({
+                    type: "Słówko EN → PL",
+                    prompt: item.en,
+                    answer: item.pl,
+                    hint: "Przetłumacz angielskie słowo na język polski."
+                });
+                vocabTasks.push({
+                    type: "Słówko PL → EN",
+                    prompt: item.pl,
+                    answer: item.en,
+                    hint: "Przetłumacz polskie słowo na język angielski."
+                });
+            });
+            return shuffleArray([...unit2FillTasks, ...vocabTasks]).slice(
+                0,
+                Math.min(TASKS_PER_FILL_GAME, unit2FillTasks.length + vocabTasks.length)
+            );
+        }
+
+        function initFillGame() {
+            fillQueue = buildFillPool();
+            fillIndex = 0;
+            fillScore = 0;
+            renderFillQuestion();
+        }
+
+        function renderFillQuestion() {
+            fillAnsweredCurrent = false;
+            const total = fillQueue.length;
+            const current = fillQueue[fillIndex];
+
+            document.getElementById("fillProgressBadge").innerText = `Zadanie: ${fillIndex + 1} / ${total}`;
+            document.getElementById("fillScoreBadge").innerText = `Poprawne: ${fillScore}`;
+            document.getElementById("fillTypeTag").innerText = current.type;
+            document.getElementById("fillQuestion").innerText = current.prompt;
+            document.getElementById("fillHint").innerText = current.hint;
+
+            const input = document.getElementById("fillInput");
+            input.value = "";
+            input.focus();
+
+            const fb = document.getElementById("fillFeedback");
+            fb.innerText = "";
+            fb.style.color = "#f5f5f4";
+        }
+
+        function checkFillAnswer() {
+            if (!fillQueue.length) return;
+            const current = fillQueue[fillIndex];
+            const userVal = document.getElementById("fillInput").value.trim().toLowerCase();
+            const expectedVal = current.answer.trim().toLowerCase();
+            const fb = document.getElementById("fillFeedback");
+
+            if (!userVal) {
+                fb.innerText = "Wpisz najpierw odpowiedź!";
+                fb.style.color = "#fde047";
+                return;
+            }
+
+            if (userVal === expectedVal) {
+                if (!fillAnsweredCurrent) {
+                    fillScore++;
+                    fillAnsweredCurrent = true;
+                    document.getElementById("fillScoreBadge").innerText = `Poprawne: ${fillScore}`;
+                }
+                fb.innerText = `Poprawnie! (${current.answer})`;
+                fb.style.color = "#4ade80";
+            } else {
+                fb.innerText = `Nie całkiem – poprawna odpowiedź to: ${current.answer}`;
+                fb.style.color = "#fca5a5";
+            }
+        }
+
+        function nextFillQuestion() {
+            if (!fillQueue.length) return;
+            if (fillIndex + 1 < fillQueue.length) {
+                fillIndex++;
+                renderFillQuestion();
+            } else {
+                const fb = document.getElementById("fillFeedback");
+                fb.innerText = `Koniec serii! Wynik: ${fillScore} / ${fillQueue.length}. Kliknij „Nowe losowanie (10)”, aby zagrać jeszcze raz.`;
+                fb.style.color = "#93c5fd";
+            }
+        }
+
+        document.getElementById("fillInput").addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                checkFillAnswer();
+            }
+        });
 
         // =========================================================
         // MODUŁ MATEMATYKI: CYFRY RZYMSKIE
@@ -1015,15 +1508,6 @@
         let message = "";
         let messageTimer = 0;
         let poopSpot = null;
-
-        function shuffleArray(array) {
-            const copy = [...array];
-            for (let i = copy.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [copy[i], copy[j]] = [copy[j], copy[i]];
-            }
-            return copy;
-        }
 
         function pickRandomRoomsOrder(totalAvailable, count) {
             const indices = Array.from({ length: totalAvailable }, (_, i) => i);
@@ -1581,136 +2065,6 @@
 
         updateStagesScale();
         gameLoop();
-
-        // =========================================================
-        // MODUŁ ANGIELSKIEGO: MEMORY
-        // =========================================================
-        const englishMemoryPairs = [
-            { en: "dog", pl: "pies" },
-            { en: "bone", pl: "kość" },
-            { en: "city", pl: "miasto" },
-            { en: "street", pl: "ulica" },
-            { en: "school", pl: "szkoła" },
-            { en: "friend", pl: "przyjaciel" },
-            { en: "apple", pl: "jabłko" },
-            { en: "book", pl: "książka" }
-        ];
-
-        const PAIRS_PER_MEMORY_GAME = 6;
-        let memoryCards = [];
-        let flippedCards = [];
-        let matchedPairs = 0;
-        let memoryMoves = 0;
-        let memoryLocked = false;
-
-        const cityBgTest = new Image();
-        cityBgTest.src = "grafika/tlo_miasto.jpg";
-        cityBgTest.onload = () => {
-            document.getElementById("memoryArena").style.backgroundImage =
-                `linear-gradient(rgba(15, 23, 42, 0.25), rgba(15, 23, 42, 0.35)), url('grafika/tlo_miasto.jpg')`;
-        };
-
-        function updateMemoryHUD() {
-            const totalPairs = memoryCards.length / 2;
-            document.getElementById("memPairsBadge").innerText = `Pary: ${matchedPairs} / ${totalPairs}`;
-            document.getElementById("memMovesBadge").innerText = `Ruchy: ${memoryMoves}`;
-        }
-
-        function initMemoryGame() {
-            const chosenPairs = shuffleArray(englishMemoryPairs).slice(
-                0,
-                Math.min(PAIRS_PER_MEMORY_GAME, englishMemoryPairs.length)
-            );
-
-            const deck = [];
-            chosenPairs.forEach((pair, idx) => {
-                deck.push({ pairId: idx, text: pair.en, lang: "EN", revealed: false, matched: false });
-                deck.push({ pairId: idx, text: pair.pl, lang: "PL", revealed: false, matched: false });
-            });
-
-            memoryCards = shuffleArray(deck);
-            flippedCards = [];
-            matchedPairs = 0;
-            memoryMoves = 0;
-            memoryLocked = false;
-
-            document.getElementById("memorySpeech").innerText =
-                "Odkryj dwie karty i dopasuj pary!";
-            updateMemoryHUD();
-            renderMemoryGrid();
-        }
-
-        function renderMemoryGrid() {
-            const grid = document.getElementById("memoryGrid");
-            grid.innerHTML = "";
-
-            memoryCards.forEach((card, index) => {
-                const btn = document.createElement("button");
-                btn.className = "mem-card";
-                if (card.matched) {
-                    btn.classList.add("matched");
-                } else if (card.revealed) {
-                    btn.classList.add("revealed");
-                }
-
-                if (card.revealed || card.matched) {
-                    const badgeClass = card.lang === "EN" ? "lang-en" : "lang-pl";
-                    btn.innerHTML = `
-                        <span class="lang-badge ${badgeClass}">${card.lang}</span>
-                        <span>${card.text}</span>
-                    `;
-                } else {
-                    btn.innerHTML = `<span style="font-size: 30px;">🐾</span>`;
-                }
-
-                btn.onclick = () => handleMemoryCardClick(index);
-                grid.appendChild(btn);
-            });
-        }
-
-        function handleMemoryCardClick(index) {
-            if (memoryLocked) return;
-            const card = memoryCards[index];
-            if (card.revealed || card.matched) return;
-
-            card.revealed = true;
-            flippedCards.push(card);
-            renderMemoryGrid();
-
-            if (flippedCards.length === 2) {
-                memoryMoves++;
-                updateMemoryHUD();
-                const [first, second] = flippedCards;
-
-                if (first.pairId === second.pairId && first.lang !== second.lang) {
-                    first.matched = true;
-                    second.matched = true;
-                    matchedPairs++;
-                    flippedCards = [];
-                    updateMemoryHUD();
-                    renderMemoryGrid();
-
-                    if (matchedPairs === memoryCards.length / 2) {
-                        document.getElementById("memorySpeech").innerText =
-                            `Brawo! Wszystkie pary w ${memoryMoves} ruchach!`;
-                    } else {
-                        document.getElementById("memorySpeech").innerText =
-                            "Great job! Pasująca para!";
-                    }
-                } else {
-                    memoryLocked = true;
-                    document.getElementById("memorySpeech").innerText =
-                        "Spróbuj ponownie!";
-                    setTimeout(() => {
-                        first.revealed = false;
-                        second.revealed = false;
-                        flippedCards = [];
-                        memoryLocked = false;
-                        renderMemoryGrid();
-                    }, 950);
-                }
-            }
-        }
     </script>
 </body>
 </html>
