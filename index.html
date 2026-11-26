@@ -2,85 +2,859 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Misja Rejki – Losowe Komnaty</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Misja Rejki – Nasze Patio</title>
     <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
         body {
             background-color: #1c1917;
             color: #f5f5f4;
-            font-family: Arial, sans-serif;
+            font-family: "Trebuchet MS", Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-            padding: 12px;
-            box-sizing: border-box;
+            padding: 10px;
             user-select: none;
         }
-        h1 {
-            margin: 0 0 10px 0;
-            color: #fbbf24;
-            font-size: 32px;
-        }
-        #hud {
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
             width: 1200px;
-            max-width: 96vw;
+            max-width: 100%;
+        }
+        .screen.active {
+            display: flex;
+        }
+
+        /* --- EKRAN 1: LANDING PAGE – NASZE PATIO --- */
+        #landingScreen {
+            position: relative;
+            width: 1200px;
+            max-width: 100%;
+            aspect-ratio: 16 / 9;
+            min-height: 460px;
+            border: 4px solid #292524;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.75);
+            background-color: #87ceeb;
+        }
+        #patioBgLayer {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        #patioBgLayer svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        .patio-ui-layer {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .patio-top-banner {
+            position: absolute;
+            top: 14px;
+            left: 18px;
+            right: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: rgba(255, 251, 235, 0.94);
+            border: 3px solid #292524;
+            border-radius: 14px;
+            padding: 8px 16px;
+            box-shadow: 0 4px 0 #292524;
+            pointer-events: auto;
+        }
+        .patio-title-box h1 {
+            margin: 0;
+            font-size: clamp(18px, 2.7vw, 32px);
+            color: #1c1917;
+        }
+        .patio-title-box p {
+            margin: 2px 0 0 0;
+            font-size: clamp(11px, 1.25vw, 15px);
+            color: #44403c;
+            font-weight: bold;
+        }
+        .rejka-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fef08a;
+            border: 3px solid #292524;
+            border-radius: 12px;
+            padding: 4px 10px;
+            box-shadow: 0 3px 0 #292524;
+            flex-shrink: 0;
+        }
+        .rejka-pill img {
+            width: clamp(38px, 5vw, 64px);
+            height: auto;
+            object-fit: contain;
+        }
+        .rejka-pill span {
+            font-size: clamp(11px, 1.15vw, 14px);
+            font-weight: bold;
+            color: #1c1917;
+            max-width: 180px;
+            line-height: 1.2;
+        }
+
+        .portal-trigger {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            pointer-events: auto;
+            touch-action: manipulation;
+            border: 3px solid #292524;
+            border-radius: 12px;
+            padding: clamp(6px, 1vw, 10px) clamp(10px, 1.6vw, 18px);
+            font-size: clamp(12px, 1.5vw, 18px);
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #292524;
+            transition: transform 0.14s ease, box-shadow 0.14s ease;
+        }
+        .portal-trigger:active {
+            transform: translate(-50%, -44%);
+            box-shadow: 0 2px 0 #292524;
+        }
+        .portal-english {
+            left: 24%;
+            top: 63%;
+            background: #bae6fd;
+            color: #0c4a6e;
+        }
+        .portal-nature {
+            left: 49%;
+            top: 60%;
+            background: #bbf7d0;
+            color: #14532d;
+        }
+        .portal-history {
+            left: 66%;
+            top: 59%;
+            background: #e9d5ff;
+            color: #4c1d95;
+        }
+        .portal-math {
+            left: 88%;
+            top: 64%;
+            background: #fde68a;
+            color: #78350f;
+        }
+
+        /* --- WSPÓLNY PASEK GÓRNY --- */
+        .top-bar {
+            width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .back-btn {
+            background: #44403c;
+            color: #fafaf9;
+            border: 2px solid #a8a29e;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .back-btn:hover {
+            border-color: #fbbf24;
+            color: #fde68a;
+        }
+        .game-title {
+            margin: 0;
+            color: #fbbf24;
+            font-size: clamp(20px, 2.5vw, 30px);
+            text-align: center;
+        }
+
+        /* --- EKRAN DZIAŁU / TEMATÓW --- */
+        .hub-panel {
+            width: 100%;
+            min-height: 520px;
             background: #292524;
-            padding: 14px 24px;
-            box-sizing: border-box;
+            border: 3px solid #a8a29e;
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.65);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .hub-intro {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            background: #1c1917;
+            border: 2px solid #57534e;
+            border-radius: 12px;
+            padding: 16px 20px;
+        }
+        .hub-intro h2 {
+            margin: 0 0 6px 0;
+            font-size: clamp(20px, 2.3vw, 28px);
+            color: #fbbf24;
+        }
+        .hub-intro p {
+            margin: 0;
+            font-size: 15px;
+            color: #d6d3d1;
+        }
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+        .topic-card {
+            background: #1c1917;
+            border: 2px solid #78716c;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 14px;
+        }
+        .topic-card.active-topic {
+            border-color: #fbbf24;
+            cursor: pointer;
+        }
+        .topic-card.active-topic:hover {
+            background: #24201e;
+            transform: translateY(-2px);
+        }
+        .topic-card.placeholder-topic {
+            opacity: 0.72;
+            border-style: dashed;
+        }
+        .topic-card h3 {
+            margin: 0 0 6px 0;
+            font-size: 20px;
+            color: #fafaf9;
+        }
+        .topic-card p {
+            margin: 0;
+            font-size: 14px;
+            color: #a8a29e;
+            line-height: 1.4;
+        }
+        .topic-btn {
+            align-self: flex-start;
+            background: #fbbf24;
+            color: #1c1917;
+            border: none;
+            border-radius: 8px;
+            padding: 9px 16px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .topic-card.placeholder-topic .topic-btn {
+            background: #44403c;
+            color: #a8a29e;
+            cursor: default;
+        }
+
+        /* --- HUD I CANVAS (CYFRY RZYMSKIE) --- */
+        #hud {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            background: #292524;
+            padding: 12px 18px;
             border: 3px solid #a8a29e;
             border-bottom: none;
             border-radius: 8px 8px 0 0;
-            font-size: 20px;
+            font-size: clamp(14px, 1.7vw, 20px);
             font-weight: bold;
         }
         canvas {
-            width: 1200px;
-            max-width: 96vw;
+            width: 100%;
             height: auto;
+            aspect-ratio: 16 / 9;
             background-color: #4a3b2c;
             border: 3px solid #a8a29e;
             border-radius: 0 0 8px 8px;
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
             display: block;
+            touch-action: none;
         }
-        p {
-            margin-top: 12px;
+        .controls-hint {
+            margin-top: 10px;
             color: #d6d3d1;
             text-align: center;
-            font-size: 17px;
+            font-size: 15px;
+        }
+
+        /* --- STEROWANIE DOTYKOWE NA TELEFON / TABLET --- */
+        .mobile-controls {
+            display: none;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .mobile-pad {
+            display: flex;
+            gap: 10px;
+        }
+        .touch-btn {
+            background: #292524;
+            color: #fef08a;
+            border: 2px solid #fbbf24;
+            border-radius: 12px;
+            min-width: 58px;
+            height: 54px;
+            padding: 0 14px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .touch-btn:active {
+            background: #fbbf24;
+            color: #1c1917;
+        }
+        .choice-bar {
+            display: none;
+            width: 100%;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .choice-bar.visible {
+            display: flex;
+        }
+        .choice-btn {
+            background: #fef08a;
+            color: #1c1917;
+            border: 2px solid #292524;
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        /* --- TRYB ANGIELSKI: MEMORY --- */
+        #memoryHud {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            background: #1e293b;
+            padding: 12px 18px;
+            border: 3px solid #64748b;
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            font-size: clamp(14px, 1.7vw, 20px);
+            font-weight: bold;
+        }
+        #memoryArena {
+            width: 100%;
+            min-height: 540px;
+            background: linear-gradient(180deg, #38bdf8 0%, #bae6fd 52%, #475569 52%, #334155 100%);
+            background-size: cover;
+            background-position: center;
+            border: 3px solid #64748b;
+            border-radius: 0 0 8px 8px;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+        }
+        .memory-side {
+            width: 230px;
+            flex-shrink: 0;
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid #fbbf24;
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .memory-side img {
+            width: 130px;
+            height: auto;
+            object-fit: contain;
+        }
+        #memorySpeech {
+            font-size: 15px;
+            line-height: 1.35;
+            color: #fef08a;
+            min-height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .memory-reset-btn {
+            background: #38bdf8;
+            color: #0f172a;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            touch-action: manipulation;
+        }
+        #memoryGrid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        .mem-card {
+            min-height: 130px;
+            height: 155px;
+            border-radius: 12px;
+            border: 3px solid #f59e0b;
+            background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+            color: #fef08a;
+            font-size: clamp(18px, 2vw, 25px);
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.45);
+            touch-action: manipulation;
+        }
+        .mem-card.revealed {
+            background: #f8fafc;
+            color: #0f172a;
+            border-color: #38bdf8;
+        }
+        .mem-card.matched {
+            background: #dcfce7;
+            color: #14532d;
+            border-color: #22c55e;
+        }
+        .mem-card .lang-badge {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 2px 7px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+        .lang-en { background: #dbeafe; color: #1e40af; }
+        .lang-pl { background: #fef3c7; color: #92400e; }
+
+        /* --- DOSTOSOWANIE DO TELEFONU --- */
+        @media (max-width: 820px) {
+            body {
+                justify-content: flex-start;
+                padding: 8px;
+            }
+            #landingScreen {
+                aspect-ratio: auto;
+                height: 430px;
+                min-height: 390px;
+            }
+            .rejka-pill span {
+                display: none;
+            }
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+            .hub-intro {
+                flex-direction: column;
+                text-align: center;
+            }
+            #memoryArena {
+                flex-direction: column;
+                min-height: auto;
+                padding: 14px;
+            }
+            .memory-side {
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 10px 14px;
+            }
+            .memory-side img {
+                width: 64px;
+            }
+            .memory-reset-btn {
+                width: auto;
+            }
+            #memoryGrid {
+                width: 100%;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            .mem-card {
+                height: 105px;
+                min-height: 95px;
+            }
+            .mobile-controls {
+                display: flex;
+            }
+            .controls-hint {
+                font-size: 13px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1 id="mainTitle">Misja Rejki – Komnata 1 / 5</h1>
+    <!-- =========================================================
+         EKRAN 1: LANDING PAGE – NASZE PATIO
+         ========================================================= -->
+    <div id="landingScreen" class="screen active">
+        <div id="patioBgLayer">
+            <svg viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0" y="0" width="1200" height="270" fill="#87ceeb"/>
+                <circle cx="1060" cy="68" r="36" fill="#fde047" stroke="#292524" stroke-width="3"/>
+                <g stroke="#292524" stroke-width="3.5" stroke-linejoin="round">
+                    <rect x="30" y="55" width="330" height="215" fill="#f8fafc"/>
+                    <rect x="115" y="95" width="120" height="175" fill="#52525b"/>
+                    <rect x="48" y="82" width="52" height="26" rx="4" fill="#a3e635"/>
+                    <rect x="252" y="82" width="54" height="26" rx="4" fill="#a3e635"/>
 
-    <div id="hud">
-        <span id="roomBadge" style="color: #e7e5e4;">Komnata: 1 / 5</span>
-        <span id="riddleText" style="color: #fbbf24;">Zagadka: Brama ma znak XIV</span>
-        <span id="statusText" style="color: #fca5a5;">Status: Zamknięta</span>
+                    <rect x="375" y="32" width="450" height="238" fill="#f1f5f9"/>
+                    <rect x="455" y="75" width="290" height="115" fill="#52525b"/>
+                    <rect x="392" y="90" width="44" height="24" rx="4" fill="#a3e635"/>
+                    <rect x="764" y="90" width="44" height="24" rx="4" fill="#a3e635"/>
+                    <rect x="520" y="202" width="160" height="68" fill="#27272a"/>
+
+                    <rect x="840" y="62" width="330" height="208" fill="#f8fafc"/>
+                    <rect x="915" y="102" width="130" height="168" fill="#52525b"/>
+                    <rect x="1062" y="92" width="46" height="24" rx="4" fill="#a3e635"/>
+                </g>
+
+                <rect x="0" y="266" width="1200" height="409" fill="#65a30d" stroke="#292524" stroke-width="3.5"/>
+                <path d="M 555 268 C 540 350, 290 385, 250 475 C 210 565, 580 610, 790 675 L 1060 675 C 830 595, 430 555, 465 470 C 500 385, 650 355, 645 268 Z"
+                      fill="#e7e5e4" stroke="#292524" stroke-width="3.5"/>
+
+                <g stroke="#292524" stroke-width="3.5" stroke-linejoin="round">
+                    <polygon points="860,335 1045,335 1075,410 835,410" fill="#fde68a"/>
+                    <rect x="856" y="325" width="194" height="14" rx="4" fill="#2563eb"/>
+                    <rect x="832" y="404" width="246" height="14" rx="4" fill="#1d4ed8"/>
+                </g>
+
+                <g stroke="#292524" stroke-width="3" stroke-linejoin="round">
+                    <rect x="135" y="302" width="120" height="12" rx="3" fill="#b45309"/>
+                    <rect x="748" y="328" width="34" height="44" rx="5" fill="#22c55e"/>
+                </g>
+            </svg>
+        </div>
+
+        <div class="patio-ui-layer">
+            <div class="patio-top-banner">
+                <div class="patio-title-box">
+                    <h1>Misja Rejki – Nasze Patio</h1>
+                    <p>Dotknij wybranego wejścia, aby otworzyć dział.</p>
+                </div>
+                <div class="rejka-pill">
+                    <img src="grafika/reja.png" alt="Rejka" onerror="this.style.display='none'">
+                    <span>Hau! Ruszamy z patio!</span>
+                </div>
+            </div>
+
+            <button class="portal-trigger portal-english" onclick="openSubjectHub('english')">ANGIELSKI</button>
+            <button class="portal-trigger portal-nature" onclick="openSubjectHub('nature')">PRZYRODA</button>
+            <button class="portal-trigger portal-history" onclick="openSubjectHub('history')">HISTORIA</button>
+            <button class="portal-trigger portal-math" onclick="openSubjectHub('math')">MATEMATYKA</button>
+        </div>
     </div>
 
-    <canvas id="gameCanvas" width="1200" height="675"></canvas>
-    <p>
-        Sterowanie: <b>Strzałki</b> lub <b>A / D</b> – bieg | <b>Spacja (x2)</b>, <b>W</b> lub <b>Strzałka w górę</b> – skok | <b>E</b> – interakcja | <b>1</b> – Weź, <b>2</b> – Zostaw | <b>R</b> – nowa losowa gra
-    </p>
+    <!-- =========================================================
+         EKRAN 2: PANEL TEMATÓW WYBRANEGO DZIAŁU
+         ========================================================= -->
+    <div id="subjectHubScreen" class="screen">
+        <div class="top-bar">
+            <button class="back-btn" onclick="openScreen('landing')">← Nasze Patio</button>
+            <h1 id="hubTitle" class="game-title">Dział</h1>
+            <div style="width: 110px;"></div>
+        </div>
+
+        <div class="hub-panel">
+            <div class="hub-intro">
+                <div>
+                    <h2 id="hubHeading">Wybierz temat</h2>
+                    <p id="hubDescription">Tutaj będą pojawiać się kolejne tematy, ćwiczenia i minigry.</p>
+                </div>
+                <img src="grafika/reja.png" alt="Rejka" style="width: 86px; height: auto; object-fit: contain;" onerror="this.style.display='none'">
+            </div>
+
+            <div id="topicsGrid" class="topics-grid"></div>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         EKRAN 3: ANGIELSKI – MEMORY
+         ========================================================= -->
+    <div id="englishScreen" class="screen">
+        <div class="top-bar">
+            <button class="back-btn" onclick="openSubjectHub('english')">← Tematy</button>
+            <h1 class="game-title">Angielski – Memory</h1>
+            <button class="back-btn" onclick="openScreen('landing')">Patio</button>
+        </div>
+
+        <div id="memoryHud">
+            <span id="memPairsBadge" style="color: #93c5fd;">Pary: 0 / 6</span>
+            <span style="color: #fbbf24;">Wielkie Miasto</span>
+            <span id="memMovesBadge" style="color: #e2e8f0;">Ruchy: 0</span>
+        </div>
+
+        <div id="memoryArena">
+            <div class="memory-side">
+                <img src="grafika/reja.png" alt="Rejka" onerror="this.style.display='none'">
+                <div id="memorySpeech">Odkryj dwie karty i dopasuj pary!</div>
+                <button class="memory-reset-btn" onclick="initMemoryGame()">Nowe słówka</button>
+            </div>
+            <div id="memoryGrid"></div>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         EKRAN 4: MATEMATYKA – CYFRY RZYMSKIE (1200x675 + DOTYK)
+         ========================================================= -->
+    <div id="romanScreen" class="screen">
+        <div class="top-bar">
+            <button class="back-btn" onclick="openSubjectHub('math')">← Tematy</button>
+            <h1 id="mainTitle" class="game-title">Komnata 1 / 5</h1>
+            <button class="back-btn" onclick="openScreen('landing')">Patio</button>
+        </div>
+
+        <div id="hud">
+            <span id="roomBadge" style="color: #e7e5e4;">Komnata: 1 / 5</span>
+            <span id="riddleText" style="color: #fbbf24;">Zagadka: Brama ma znak XIV</span>
+            <span id="statusText" style="color: #fca5a5;">Status: Zamknięta</span>
+        </div>
+
+        <canvas id="gameCanvas" width="1200" height="675"></canvas>
+
+        <div id="mobileChoiceBar" class="choice-bar">
+            <button class="choice-btn" onclick="activeChoiceBone && handleTakeBone(activeChoiceBone)">Weź [1]</button>
+            <button class="choice-btn" onclick="activeChoiceBone && handleLeaveBone(activeChoiceBone)">Zostaw [2]</button>
+        </div>
+
+        <div class="mobile-controls">
+            <div class="mobile-pad">
+                <button class="touch-btn"
+                    onpointerdown="setTouchDir('left', true)"
+                    onpointerup="setTouchDir('left', false)"
+                    onpointercancel="setTouchDir('left', false)"
+                    onpointerleave="setTouchDir('left', false)">←</button>
+                <button class="touch-btn"
+                    onpointerdown="setTouchDir('right', true)"
+                    onpointerup="setTouchDir('right', false)"
+                    onpointercancel="setTouchDir('right', false)"
+                    onpointerleave="setTouchDir('right', false)">→</button>
+            </div>
+            <div class="mobile-pad">
+                <button class="touch-btn" onclick="handleInteractAction()">E</button>
+                <button class="touch-btn" onclick="if(!gameFinished) tryJump()">Skok</button>
+            </div>
+        </div>
+
+        <p class="controls-hint">
+            Klawiatura: <b>Strzałki / A, D</b> – bieg | <b>Spacja (x2) / W / ↑</b> – skok | <b>E</b> – interakcja | <b>1 / 2</b> – wybór | <b>R</b> – nowa gra
+        </p>
+    </div>
 
     <script>
+        const patioCustomImg = new Image();
+        patioCustomImg.src = "grafika/patio_landing.jpg";
+        patioCustomImg.onload = () => {
+            const layer = document.getElementById("patioBgLayer");
+            layer.innerHTML = "";
+            layer.style.backgroundImage =
+                "linear-gradient(rgba(28, 25, 23, 0.12), rgba(28, 25, 23, 0.18)), url('grafika/patio_landing.jpg')";
+            layer.style.backgroundSize = "cover";
+            layer.style.backgroundPosition = "center";
+        };
+
+        const subjectCatalog = {
+            english: {
+                title: "ANGIELSKI",
+                heading: "Dział: Angielski",
+                description: "Wybierz temat lub ćwiczenie. Kolejne moduły (np. uzupełnianki) dopiszemy tutaj.",
+                topics: [
+                    {
+                        title: "Memory – Słówka",
+                        desc: "Łącz angielskie słówka z polskim tłumaczeniem.",
+                        action: () => openMemoryGame(),
+                        btnLabel: "Otwórz Memory"
+                    },
+                    {
+                        title: "Kolejny temat (wkrótce)",
+                        desc: "Miejsce na uzupełnianki lub nowy zestaw słówek.",
+                        action: null,
+                        btnLabel: "Do dodania"
+                    }
+                ]
+            },
+            nature: {
+                title: "PRZYRODA",
+                heading: "Dział: Przyroda (Dżungla)",
+                description: "Tutaj dodasz kolejne tematy przyrodnicze dla Rejki.",
+                topics: [
+                    {
+                        title: "Temat 1 – Dżungla (wkrótce)",
+                        desc: "Miejsce na pierwszy temat i ćwiczenia z przyrody.",
+                        action: null,
+                        btnLabel: "Do dodania"
+                    },
+                    {
+                        title: "Temat 2 (wkrótce)",
+                        desc: "Miejsce na kolejny moduł przyrodniczy.",
+                        action: null,
+                        btnLabel: "Do dodania"
+                    }
+                ]
+            },
+            history: {
+                title: "HISTORIA",
+                heading: "Dział: Historia (Muzeum)",
+                description: "Tutaj dodasz kolejne tematy historyczne dla Rejki.",
+                topics: [
+                    {
+                        title: "Temat 1 – Muzeum (wkrótce)",
+                        desc: "Miejsce na pierwszy temat i zagadki historyczne.",
+                        action: null,
+                        btnLabel: "Do dodania"
+                    },
+                    {
+                        title: "Temat 2 (wkrótce)",
+                        desc: "Miejsce na kolejny moduł historyczny.",
+                        action: null,
+                        btnLabel: "Do dodania"
+                    }
+                ]
+            },
+            math: {
+                title: "MATEMATYKA",
+                heading: "Dział: Matematyka (Piramidy)",
+                description: "Wybierz aktywny moduł lub dodaj kolejne tematy matematyczne.",
+                topics: [
+                    {
+                        title: "Cyfry Rzymskie",
+                        desc: "Przygoda z kośćmi i otwieraniem bram w komnatach.",
+                        action: () => openRomanGame(),
+                        btnLabel: "Uruchom"
+                    },
+                    {
+                        title: "Kolejny temat (wkrótce)",
+                        desc: "Miejsce na nowe zadania lub uzupełnianki.",
+                        action: null,
+                        btnLabel: "Do dodania"
+                    }
+                ]
+            }
+        };
+
+        let activeScreen = "landing";
+
+        function openScreen(screenId) {
+            activeScreen = screenId;
+            document.querySelectorAll(".screen").forEach(el => el.classList.remove("active"));
+
+            const map = {
+                landing: "landingScreen",
+                hub: "subjectHubScreen",
+                english: "englishScreen",
+                roman: "romanScreen"
+            };
+            const targetId = map[screenId] || "landingScreen";
+            document.getElementById(targetId).classList.add("active");
+        }
+
+        function openSubjectHub(subjectKey) {
+            const data = subjectCatalog[subjectKey];
+            if (!data) return;
+
+            document.getElementById("hubTitle").innerText = `Misja Rejki – ${data.title}`;
+            document.getElementById("hubHeading").innerText = data.heading;
+            document.getElementById("hubDescription").innerText = data.description;
+
+            const grid = document.getElementById("topicsGrid");
+            grid.innerHTML = "";
+
+            data.topics.forEach(topic => {
+                const card = document.createElement("div");
+                const isReady = typeof topic.action === "function";
+                card.className = `topic-card ${isReady ? "active-topic" : "placeholder-topic"}`;
+
+                card.innerHTML = `
+                    <div>
+                        <h3>${topic.title}</h3>
+                        <p>${topic.desc}</p>
+                    </div>
+                    <button class="topic-btn">${topic.btnLabel}</button>
+                `;
+
+                if (isReady) {
+                    card.onclick = topic.action;
+                }
+                grid.appendChild(card);
+            });
+
+            openScreen("hub");
+        }
+
+        function openMemoryGame() {
+            openScreen("english");
+            initMemoryGame();
+        }
+
+        function openRomanGame() {
+            openScreen("roman");
+            startNewRandomRun();
+        }
+
+        // =========================================================
+        // MODUŁ MATEMATYKI: CYFRY RZYMSKIE
+        // =========================================================
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
 
-        // Współczynnik powiększenia względem bazowego układu 800x450
         const SCALE = 1.5;
-        const ROOMS_PER_RUN = 20;
+        const ROOMS_PER_RUN = 5;
 
-        // 1. GRAFIKI (Reja, Brama, Tło)
         const rejaImg = new Image();
         rejaImg.src = "grafika/reja.png";
         let rejaZaladowana = false;
@@ -96,7 +870,6 @@
         let tloZaladowane = false;
         tloImg.onload = () => { tloZaladowane = true; };
 
-        // 2. DANE GRACZA (REJKA – powiększona i dopasowana do większej planszy)
         const player = {
             x: 60,
             y: 420,
@@ -115,8 +888,12 @@
 
         const gravity = 0.65;
         const keys = {};
+        const touchState = { left: false, right: false };
 
-        // 3. PULA WSZYSTKICH DODANYCH KOMNAT (współrzędne bazowe 800x450, automatycznie skalowane x1.5)
+        function setTouchDir(dir, active) {
+            touchState[dir] = active;
+        }
+
         const levelsData = [
             {
                 roman: "XIV",
@@ -192,243 +969,34 @@
                     { x: 578, y: 112, w: 68, h: 28, value: "531", correct: false }
                 ],
                 gate: { x: 722, y: 281, w: 64, h: 125 }
-            },
-{
-                roman: "CDXLVII",
-                platforms: [
-                    { x: 0, y: 406, w: 800, h: 44 },
-                    { x: 90, y: 316, w: 170, h: 22 },
-                    { x: 310, y: 232, w: 175, h: 22 },
-                    { x: 525, y: 150, w: 175, h: 22 }
-                ],
-                bones: [
-                    { x: 141, y: 278, w: 68, h: 28, value: "667", correct: false  },
-                    { x: 363, y: 194, w: 68, h: 28, value: "447", correct: true },
-                    { x: 578, y: 112, w: 68, h: 28, value: "547", correct: false }
-                ],
-                gate: { x: 722, y: 281, w: 64, h: 125 }
-            },
-{
-                roman: "MCMXCIX",
-                platforms: [
-                    { x: 0, y: 406, w: 800, h: 44 },
-                    { x: 90, y: 316, w: 170, h: 22 },
-                    { x: 310, y: 232, w: 175, h: 22 },
-                    { x: 525, y: 150, w: 175, h: 22 }
-                ],
-                bones: [
-                    { x: 141, y: 278, w: 68, h: 28, value: "1900", correct: false  },
-                    { x: 363, y: 194, w: 68, h: 28, value: "1999", correct: true },
-                    { x: 578, y: 112, w: 68, h: 28, value: "1899", correct: false }
-                ],
-                gate: { x: 722, y: 281, w: 64, h: 125 }
-            },
-{
-                roman: "MCMLXXXVII",
-                platforms: [
-                    { x: 0, y: 406, w: 800, h: 44 },
-                    { x: 90, y: 316, w: 170, h: 22 },
-                    { x: 310, y: 232, w: 175, h: 22 },
-                    { x: 525, y: 150, w: 175, h: 22 }
-                ],
-                bones: [
-                    { x: 141, y: 278, w: 68, h: 28, value: "1907", correct: false },
-                    { x: 363, y: 194, w: 68, h: 28, value: "1997", correct: false },
-                    { x: 578, y: 112, w: 68, h: 28, value: "1987", correct: true }
-                ],
-                gate: { x: 722, y: 281, w: 64, h: 125 }
-            },
-
-{
-                roman: "CDXL",
-                platforms: [
-                    { x: 0, y: 406, w: 800, h: 44 },
-                    { x: 90, y: 316, w: 170, h: 22 },
-                    { x: 310, y: 232, w: 175, h: 22 },
-                    { x: 525, y: 150, w: 175, h: 22 }
-                ],
-                bones: [
-                    { x: 141, y: 278, w: 68, h: 28, value: "760", correct: false },
-                    { x: 363, y: 194, w: 68, h: 28, value: "540", correct: false },
-                    { x: 578, y: 112, w: 68, h: 28, value: "440", correct: true }
-                ],
-                gate: { x: 722, y: 281, w: 64, h: 125 }
-            },
-
-{
-                roman: "MMCCXLIV",
-                platforms: [
-                    { x: 0, y: 406, w: 800, h: 44 },
-                    { x: 90, y: 316, w: 170, h: 22 },
-                    { x: 310, y: 232, w: 175, h: 22 },
-                    { x: 525, y: 150, w: 175, h: 22 }
-                ],
-                bones: [
-                    { x: 141, y: 278, w: 68, h: 28, value: "2200", correct: false },
-                    { x: 363, y: 194, w: 68, h: 28, value: "2244", correct: true },
-                    { x: 578, y: 112, w: 68, h: 28, value: "2440", correct: false}
-                ],
-                gate: { x: 722, y: 281, w: 64, h: 125 }
-            },
-{
-                roman: "DCCLXXVII",
-                platforms: [
-                    { x: 0, y: 406, w: 800, h: 44 },
-                    { x: 90, y: 316, w: 170, h: 22 },
-                    { x: 310, y: 232, w: 175, h: 22 },
-                    { x: 525, y: 150, w: 175, h: 22 }
-                ],
-                bones: [
-                    { x: 141, y: 278, w: 68, h: 28, value: "634", correct: false },
-                    { x: 363, y: 194, w: 68, h: 28, value: "1248", correct: false },
-                    { x: 578, y: 112, w: 68, h: 28, value: "777", correct: true}
-                ],
-                gate: { x: 722, y: 281, w: 64, h: 125 }
-            },
-{
-                roman: "XXXVIII",
-                platforms: [
-                    { x: 0, y: 406, w: 800, h: 44 },
-                    { x: 90, y: 316, w: 170, h: 22 },
-                    { x: 310, y: 232, w: 175, h: 22 },
-                    { x: 525, y: 150, w: 175, h: 22 }
-                ],
-                bones: [
-                    { x: 141, y: 278, w: 68, h: 28, value: "38", correct: true },
-                    { x: 363, y: 194, w: 68, h: 28, value: "89", correct: false },
-                    { x: 578, y: 112, w: 68, h: 28, value: "46", correct: false}
-                ],
-                gate: { x: 722, y: 281, w: 64, h: 125 }
-            },
-{
-                roman: "MDCLXXI",
-                platforms: [
-                    { x: 0, y: 406, w: 800, h: 44 },
-                    { x: 90, y: 316, w: 170, h: 22 },
-                    { x: 310, y: 232, w: 175, h: 22 },
-                    { x: 525, y: 150, w: 175, h: 22 }
-                ],
-                bones: [
-                    { x: 141, y: 278, w: 68, h: 28, value: "1671", correct: false },
-                    { x: 363, y: 194, w: 68, h: 28, value: "1249", correct: false },
-                    { x: 578, y: 112, w: 68, h: 28, value: "1532", correct: true}
-                ],
-                gate: { x: 722, y: 281, w: 64, h: 125 }
-            },
-{
-                roman: "MDCLVXI",
-                platforms: [
-                    { x: 0, y: 406, w: 800, h: 44 },
-                    { x: 90, y: 316, w: 170, h: 22 },
-                    { x: 310, y: 232, w: 175, h: 22 },
-                    { x: 525, y: 150, w: 175, h: 22 }
-                ],
-                bones: [
-                    { x: 141, y: 278, w: 68, h: 28, value: "1652", correct: false },
-                    { x: 363, y: 194, w: 68, h: 28, value: "1671", correct: true },
-                    { x: 578, y: 112, w: 68, h: 28, value: "1661", correct: false}
-                ],
-                gate: { x: 722, y: 281, w: 64, h: 125 }
-            },
-{
-                roman: "MII",
-                platforms: [
-                    { x: 0, y: 406, w: 800, h: 44 },
-                    { x: 90, y: 316, w: 170, h: 22 },
-                    { x: 310, y: 232, w: 175, h: 22 },
-                    { x: 525, y: 150, w: 175, h: 22 }
-                ],
-                bones: [
-                    { x: 141, y: 278, w: 68, h: 28, value: "1053", correct: false },
-                    { x: 363, y: 194, w: 68, h: 28, value: "1002", correct: true },
-                    { x: 578, y: 112, w: 68, h: 28, value: "1249", correct: false}
-                ],
-                gate: { x: 722, y: 281, w: 64, h: 125 }
-            },
-{
-                roman: "CDLII",
-                platforms: [
-                    { x: 0, y: 406, w: 800, h: 44 },
-                    { x: 90, y: 316, w: 170, h: 22 },
-                    { x: 310, y: 232, w: 175, h: 22 },
-                    { x: 525, y: 150, w: 175, h: 22 }
-                ],
-                bones: [
-                    { x: 141, y: 278, w: 68, h: 28, value: "564", correct: false },
-                    { x: 363, y: 194, w: 68, h: 28, value: "452", correct: true },
-                    { x: 578, y: 112, w: 68, h: 28, value: "500", correct: false}
-               ],
-                gate: { x: 722, y: 281, w: 64, h: 125 }
-            },
-{
-                roman: "MCCCLIII",
-                platforms: [
-                    { x: 0, y: 406, w: 800, h: 44 },
-                    { x: 90, y: 316, w: 170, h: 22 },
-                    { x: 310, y: 232, w: 175, h: 22 },
-                    { x: 525, y: 150, w: 175, h: 22 }
-                ],
-                bones: [
-                    { x: 141, y: 278, w: 68, h: 28, value: "1353", correct: true },
-                    { x: 363, y: 194, w: 68, h: 28, value: "1814", correct: false },
-                    { x: 578, y: 112, w: 68, h: 28, value: "2000", correct: false}
-                ],
-                gate: { x: 722, y: 281, w: 64, h: 125 }
-            },
-
-{
-                roman: "MDCXL",
-                platforms: [
-                    { x: 0, y: 406, w: 800, h: 44 },
-                    { x: 90, y: 316, w: 170, h: 22 },
-                    { x: 310, y: 232, w: 175, h: 22 },
-                    { x: 525, y: 150, w: 175, h: 22 }
-                ],
-                bones: [
-                    { x: 141, y: 278, w: 68, h: 28, value: "1730", correct: false },
-                    { x: 363, y: 194, w: 68, h: 28, value: "1640", correct: true },
-                    { x: 578, y: 112, w: 68, h: 28, value: "2525", correct: false}
-                ],
-                gate: { x: 722, y: 281, w: 64, h: 125 }
-            },
-
-
-
-
-
-
-
-
+            }
         ];
 
-        // 5 losowych komnat wybranych do bieżącej rozgrywki
         let selectedRunOrder = [];
         let currentStep = 0;
-
         let currentPlatforms = [];
         let currentBones = [];
         let currentGate = null;
         let currentRoman = "";
-
         let gateOpen = false;
         let gameFinished = false;
         let activeChoiceBone = null;
         let message = "";
         let messageTimer = 0;
-
-        // Efekt kupki po złej odpowiedzi
         let poopSpot = null;
 
-        function pickRandomRoomsOrder(totalAvailable, count) {
-            const indices = [];
-            for (let i = 0; i < totalAvailable; i++) indices.push(i);
-
-            for (let i = indices.length - 1; i > 0; i--) {
+        function shuffleArray(array) {
+            const copy = [...array];
+            for (let i = copy.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [indices[i], indices[j]] = [indices[j], indices[i]];
+                [copy[i], copy[j]] = [copy[j], copy[i]];
             }
+            return copy;
+        }
 
-            return indices.slice(0, Math.min(count, indices.length));
+        function pickRandomRoomsOrder(totalAvailable, count) {
+            const indices = Array.from({ length: totalAvailable }, (_, i) => i);
+            return shuffleArray(indices).slice(0, Math.min(count, indices.length));
         }
 
         function showMessage(text, frames = 150) {
@@ -436,10 +1004,20 @@
             messageTimer = frames;
         }
 
+        function syncChoiceBar() {
+            const bar = document.getElementById("mobileChoiceBar");
+            if (!bar) return;
+            if (activeChoiceBone && !gameFinished) {
+                bar.classList.add("visible");
+            } else {
+                bar.classList.remove("visible");
+            }
+        }
+
         function updateHUD() {
             const total = selectedRunOrder.length;
             const num = currentStep + 1;
-            document.getElementById("mainTitle").innerText = `Misja Rejki – Komnata ${num} / ${total}`;
+            document.getElementById("mainTitle").innerText = `Komnata ${num} / ${total}`;
             document.getElementById("roomBadge").innerText = `Komnata: ${num} / ${total}`;
             document.getElementById("riddleText").innerText = `Zagadka: Brama ma znak ${currentRoman}`;
 
@@ -485,6 +1063,7 @@
             gateOpen = false;
             activeChoiceBone = null;
             poopSpot = null;
+            syncChoiceBar();
 
             player.x = 60;
             player.y = 420;
@@ -535,6 +1114,17 @@
             return null;
         }
 
+        function handleInteractAction() {
+            if (gameFinished) return;
+            const nearby = getNearbyBone();
+            if (nearby && !activeChoiceBone) {
+                activeChoiceBone = nearby;
+            } else if (activeChoiceBone) {
+                activeChoiceBone = null;
+            }
+            syncChoiceBar();
+        }
+
         function spawnPoopBehindReja() {
             const offsetX = player.facingRight ? 18 : player.width - 42;
             const px = Math.min(Math.max(player.x + offsetX, 24), canvas.width - 54);
@@ -545,6 +1135,7 @@
         function handleTakeBone(bone) {
             bone.taken = true;
             activeChoiceBone = null;
+            syncChoiceBar();
 
             if (bone.correct) {
                 gateOpen = true;
@@ -559,12 +1150,13 @@
         function handleLeaveBone(bone) {
             bone.leftAlone = true;
             activeChoiceBone = null;
+            syncChoiceBar();
             showMessage("Kość została na miejscu.", 90);
         }
 
-        // 4. STEROWANIE KLAWIATURĄ
         window.addEventListener("keydown", (e) => {
             keys[e.code] = true;
+            if (activeScreen !== "roman") return;
 
             if (e.code === "KeyR" && !e.repeat) {
                 startNewRandomRun("Nowa losowa piątka komnat! Powodzenia, Rejko!");
@@ -583,12 +1175,7 @@
             }
 
             if (e.code === "KeyE" && !e.repeat) {
-                const nearby = getNearbyBone();
-                if (nearby && !activeChoiceBone) {
-                    activeChoiceBone = nearby;
-                } else if (activeChoiceBone) {
-                    activeChoiceBone = null;
-                }
+                handleInteractAction();
             }
 
             if (activeChoiceBone && !e.repeat) {
@@ -613,19 +1200,16 @@
             );
         }
 
-        // 5. LOGIKA GRY
-        function update() {
+        function updateRoman() {
             if (poopSpot) {
                 poopSpot.timer--;
-                if (poopSpot.timer <= 0) {
-                    poopSpot = null;
-                }
+                if (poopSpot.timer <= 0) poopSpot = null;
             }
 
             if (gameFinished) return;
 
-            const moveLeft = keys["ArrowLeft"] || keys["KeyA"];
-            const moveRight = keys["ArrowRight"] || keys["KeyD"];
+            const moveLeft = keys["ArrowLeft"] || keys["KeyA"] || touchState.left;
+            const moveRight = keys["ArrowRight"] || keys["KeyD"] || touchState.right;
 
             if (moveLeft && !moveRight) {
                 player.vx = -player.speed;
@@ -638,7 +1222,6 @@
             }
 
             player.x += player.vx;
-
             if (player.x < 0) player.x = 0;
             if (player.x + player.width > canvas.width) {
                 player.x = canvas.width - player.width;
@@ -668,6 +1251,7 @@
                 const nearby = getNearbyBone();
                 if (!nearby || nearby !== activeChoiceBone) {
                     activeChoiceBone = null;
+                    syncChoiceBar();
                 }
             }
 
@@ -680,6 +1264,7 @@
                 } else {
                     gameFinished = true;
                     messageTimer = 0;
+                    syncChoiceBar();
                 }
             }
 
@@ -688,7 +1273,6 @@
             }
         }
 
-        // 6. RYSOWANIE PLATFORM Z RZYMSKICH CEGIEŁEK
         function drawBrickPlatform(plat) {
             const { x, y, w, h } = plat;
             const brickW = 48;
@@ -737,7 +1321,6 @@
             ctx.strokeRect(x, y, w, h);
         }
 
-        // 7. RYSOWANIE BIAŁEJ KOŚCI Z NUMEREM
         function drawBone(bone) {
             if (bone.taken) return;
 
@@ -781,7 +1364,6 @@
             ctx.restore();
         }
 
-        // 8. RYSOWANIE KRESKÓWKOWEJ KUPKI PO ZŁEJ ODPOWIEDZI
         function drawPoop(spot) {
             if (!spot) return;
 
@@ -813,8 +1395,7 @@
             ctx.restore();
         }
 
-        // 9. RYSOWANIE SCENY
-        function draw() {
+        function drawRoman() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             if (tloZaladowane) {
@@ -942,11 +1523,11 @@
 
                 ctx.fillStyle = "#f5f5f4";
                 ctx.font = "26px Arial";
-                ctx.fillText("Rejka pokonała 15 wylosowanych komnat!", canvas.width / 2, 325);
+                ctx.fillText("Rejka pokonała wszystkie wylosowane komnaty!", canvas.width / 2, 325);
 
                 ctx.fillStyle = "#86efac";
                 ctx.font = "bold 24px Arial";
-                ctx.fillText("Naciśnij R (lub odśwież F5), aby wylosować nowe komnaty.", canvas.width / 2, 425);
+                ctx.fillText("Naciśnij R, aby zagrać ponownie, lub wróć do Patio.", canvas.width / 2, 425);
             }
         }
 
@@ -960,13 +1541,144 @@
         }
 
         function gameLoop() {
-            update();
-            draw();
+            if (activeScreen === "roman") {
+                updateRoman();
+                drawRoman();
+            }
             requestAnimationFrame(gameLoop);
         }
 
-        startNewRandomRun();
         gameLoop();
+
+        // =========================================================
+        // MODUŁ ANGIELSKIEGO: MEMORY
+        // =========================================================
+        const englishMemoryPairs = [
+            { en: "dog", pl: "pies" },
+            { en: "bone", pl: "kość" },
+            { en: "city", pl: "miasto" },
+            { en: "street", pl: "ulica" },
+            { en: "school", pl: "szkoła" },
+            { en: "friend", pl: "przyjaciel" },
+            { en: "apple", pl: "jabłko" },
+            { en: "book", pl: "książka" }
+        ];
+
+        const PAIRS_PER_MEMORY_GAME = 6;
+        let memoryCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let memoryMoves = 0;
+        let memoryLocked = false;
+
+        const cityBgTest = new Image();
+        cityBgTest.src = "grafika/tlo_miasto.jpg";
+        cityBgTest.onload = () => {
+            document.getElementById("memoryArena").style.backgroundImage =
+                `linear-gradient(rgba(15, 23, 42, 0.25), rgba(15, 23, 42, 0.35)), url('grafika/tlo_miasto.jpg')`;
+        };
+
+        function updateMemoryHUD() {
+            const totalPairs = memoryCards.length / 2;
+            document.getElementById("memPairsBadge").innerText = `Pary: ${matchedPairs} / ${totalPairs}`;
+            document.getElementById("memMovesBadge").innerText = `Ruchy: ${memoryMoves}`;
+        }
+
+        function initMemoryGame() {
+            const chosenPairs = shuffleArray(englishMemoryPairs).slice(
+                0,
+                Math.min(PAIRS_PER_MEMORY_GAME, englishMemoryPairs.length)
+            );
+
+            const deck = [];
+            chosenPairs.forEach((pair, idx) => {
+                deck.push({ pairId: idx, text: pair.en, lang: "EN", revealed: false, matched: false });
+                deck.push({ pairId: idx, text: pair.pl, lang: "PL", revealed: false, matched: false });
+            });
+
+            memoryCards = shuffleArray(deck);
+            flippedCards = [];
+            matchedPairs = 0;
+            memoryMoves = 0;
+            memoryLocked = false;
+
+            document.getElementById("memorySpeech").innerText =
+                "Odkryj dwie karty i dopasuj pary!";
+            updateMemoryHUD();
+            renderMemoryGrid();
+        }
+
+        function renderMemoryGrid() {
+            const grid = document.getElementById("memoryGrid");
+            grid.innerHTML = "";
+
+            memoryCards.forEach((card, index) => {
+                const btn = document.createElement("button");
+                btn.className = "mem-card";
+                if (card.matched) {
+                    btn.classList.add("matched");
+                } else if (card.revealed) {
+                    btn.classList.add("revealed");
+                }
+
+                if (card.revealed || card.matched) {
+                    const badgeClass = card.lang === "EN" ? "lang-en" : "lang-pl";
+                    btn.innerHTML = `
+                        <span class="lang-badge ${badgeClass}">${card.lang}</span>
+                        <span>${card.text}</span>
+                    `;
+                } else {
+                    btn.innerHTML = `<span style="font-size: 30px;">🐾</span>`;
+                }
+
+                btn.onclick = () => handleMemoryCardClick(index);
+                grid.appendChild(btn);
+            });
+        }
+
+        function handleMemoryCardClick(index) {
+            if (memoryLocked) return;
+            const card = memoryCards[index];
+            if (card.revealed || card.matched) return;
+
+            card.revealed = true;
+            flippedCards.push(card);
+            renderMemoryGrid();
+
+            if (flippedCards.length === 2) {
+                memoryMoves++;
+                updateMemoryHUD();
+                const [first, second] = flippedCards;
+
+                if (first.pairId === second.pairId && first.lang !== second.lang) {
+                    first.matched = true;
+                    second.matched = true;
+                    matchedPairs++;
+                    flippedCards = [];
+                    updateMemoryHUD();
+                    renderMemoryGrid();
+
+                    if (matchedPairs === memoryCards.length / 2) {
+                        document.getElementById("memorySpeech").innerText =
+                            `Brawo! Wszystkie pary w ${memoryMoves} ruchach!`;
+                    } else {
+                        document.getElementById("memorySpeech").innerText =
+                            "Great job! Pasująca para!";
+                    }
+                } else {
+                    memoryLocked = true;
+                    document.getElementById("memorySpeech").innerText =
+                        "Spróbuj ponownie!";
+                    setTimeout(() => {
+                        first.revealed = false;
+                        second.revealed = false;
+                        flippedCards = [];
+                        memoryLocked = false;
+                        renderMemoryGrid();
+                    }, 950);
+                }
+            }
+        }
     </script>
 </body>
 </html>
